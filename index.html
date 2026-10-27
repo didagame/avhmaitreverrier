@@ -1,9 +1,8 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Le verrier de Troyes</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=UnifrakturMaguntia&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap">
 <style>
 /* Mise en page : un livre imprimé vers 1520, ouvert sur un écran en largeur, sans défilement.
    Gravure (scène ou plan) à gauche, texte paginé à droite ; carnet de croquis de Jehan sur demande.
@@ -25,7 +24,7 @@
   --r-panneau:16px;
   --r-bouton:10px;
   --r-pastille:999px;
-  --f-titre:'UnifrakturMaguntia','Old English Text MT','EB Garamond',serif;
+  --f-titre:'EB Garamond',Garamond,'Times New Roman',Georgia,serif;
   --f-texte:'EB Garamond',Garamond,'Times New Roman',Georgia,serif;
   --taille:clamp(15px,2.45vh,19px);
   color-scheme:light;
@@ -48,7 +47,7 @@ a{color:var(--nuit)}
 
 /* Bandeau */
 .bandeau{flex:none;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 14px;color:var(--papier)}
-.bandeau .titre{font-family:var(--f-titre);font-weight:400;font-size:1.6rem;line-height:1.05;margin:0}
+.bandeau .titre{font-family:var(--f-titre);font-weight:600;font-size:1.6rem;line-height:1.05;margin:0}
 .bandeau-droite{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .btn-ecran{position:relative;font-size:.86rem;color:var(--papier);background:transparent;border:1px solid var(--papier-ombre);padding:5px 12px;border-radius:var(--r-pastille);cursor:pointer;display:inline-flex;align-items:center;gap:6px;min-height:34px}
 .btn-ecran:hover{background:rgba(239,230,210,.12)}
@@ -99,7 +98,7 @@ a{color:var(--nuit)}
 .rubrique-haut .fol{font-family:var(--f-titre);letter-spacing:0;text-transform:none;font-size:1.05rem;color:var(--encre);white-space:nowrap}
 .btn-voix{font-size:.8rem;letter-spacing:0;text-transform:none;color:var(--nuit);background:rgba(255,250,238,.6);border:1px solid var(--nuit);border-radius:var(--r-pastille);padding:2px 12px;cursor:pointer}
 .btn-voix[aria-pressed="true"]{background:var(--nuit);color:var(--papier)}
-h2.lieu{flex:none;font-family:var(--f-titre);font-weight:400;color:var(--encre);font-size:1.75rem;line-height:1.1;margin:0;text-wrap:balance}
+h2.lieu{flex:none;font-family:var(--f-titre);font-weight:600;color:var(--encre);font-size:1.75rem;line-height:1.1;margin:0;text-wrap:balance}
 .page-texte{flex:1;min-height:0;overflow:auto;padding-right:4px}
 .page-texte>*:last-child{margin-bottom:0}
 .page-texte p{margin:0 0 .7em}
@@ -136,7 +135,7 @@ h2.lieu{flex:none;font-family:var(--f-titre);font-weight:400;color:var(--encre);
 .annonce svg{width:22px;height:22px;flex:none}
 .annonce.baisse{border-color:var(--rubrique);background:rgba(166,58,36,.08)}
 .encart{margin:0 0 .7em;padding:10px 16px;border:1px solid var(--encre);background:rgba(255,250,238,.55);border-radius:12px;font-size:.94rem}
-.encart h3{font-family:var(--f-titre);font-weight:400;color:var(--rubrique);font-size:1.2rem;margin:0 0 4px;line-height:1.15}
+.encart h3{font-family:var(--f-titre);font-weight:600;color:var(--rubrique);font-size:1.2rem;margin:0 0 4px;line-height:1.15}
 .encart ul{margin:0;padding-left:20px;display:grid;gap:3px}
 
 /* Plans */
@@ -161,20 +160,20 @@ h2.lieu{flex:none;font-family:var(--f-titre);font-weight:400;color:var(--encre);
 button:focus-visible,.lieu-plan:focus-visible,a:focus-visible{outline:2px solid var(--rubrique);outline-offset:2px}
 
 /* Écran titre et guide */
-.titre-jeu{font-family:var(--f-titre);font-weight:400;color:var(--encre);font-size:2.6rem;line-height:1;margin:0 0 .35em;text-wrap:balance}
+.titre-jeu{font-family:var(--f-titre);font-weight:600;color:var(--encre);font-size:2.6rem;line-height:1;margin:0 0 .35em;text-wrap:balance}
 .sous-titre{font-style:italic;font-size:1.1rem;margin:0 0 .7em;color:var(--rubrique)}
 .petit{font-size:.88rem;color:var(--encre-douce);font-style:italic}
 .guide{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .fiche{display:flex;gap:10px;align-items:flex-start;padding:8px 12px;border:1px solid var(--papier-ombre);border-radius:12px;background:rgba(255,250,238,.55)}
 .fiche svg{width:2.2em;height:2.2em;flex:none}
-.fiche h3{font-family:var(--f-titre);font-weight:400;color:var(--rubrique);font-size:1.12rem;margin:0 0 2px;line-height:1.1}
+.fiche h3{font-family:var(--f-titre);font-weight:600;color:var(--rubrique);font-size:1.12rem;margin:0 0 2px;line-height:1.1}
 .fiche p{margin:0;font-size:.86rem;line-height:1.35}
 
 /* Panneaux superposés */
 .voile{position:fixed;inset:0;z-index:20;background:rgba(20,16,12,.58)}
 .carnet-panneau{position:fixed;z-index:30;top:max(10px,env(safe-area-inset-top,0px));bottom:max(10px,env(safe-area-inset-bottom,0px));right:max(10px,env(safe-area-inset-right,0px));width:min(370px,calc(100vw - 20px));overflow:auto;padding:18px 18px 20px;display:flex;flex-direction:column;gap:14px;animation:glisse .3s ease-out}
 @keyframes glisse{from{transform:translateX(30px);opacity:.4}to{transform:none;opacity:1}}
-.carnet-panneau h3{font-family:var(--f-titre);font-weight:400;font-size:1.2rem;color:var(--rubrique);margin:0 0 6px;border-bottom:1px solid var(--papier-ombre);padding-bottom:4px}
+.carnet-panneau h3{font-family:var(--f-titre);font-weight:600;font-size:1.2rem;color:var(--rubrique);margin:0 0 6px;border-bottom:1px solid var(--papier-ombre);padding-bottom:4px}
 .carnet-tete{display:flex;gap:12px;align-items:center}
 .carnet-tete .portrait{width:60px;height:60px;flex:none}
 .carnet-tete .nom{font-family:var(--f-titre);color:var(--encre);font-size:1.35rem;line-height:1.05}
@@ -195,7 +194,7 @@ button:focus-visible,.lieu-plan:focus-visible,a:focus-visible{outline:2px solid 
 .boite-doc .doc-tete{display:flex;gap:14px;align-items:flex-start}
 .boite-doc .doc-tete .vig{width:96px;aspect-ratio:4/5;flex:none;border:1px solid var(--encre);border-radius:8px;background:var(--lavis);display:flex;align-items:center;justify-content:center}
 .boite-doc .doc-tete .vig svg{width:70%;height:70%}
-.boite-doc h3{font-family:var(--f-titre);font-weight:400;color:var(--rubrique);font-size:1.35rem;margin:0 0 4px;line-height:1.1}
+.boite-doc h3{font-family:var(--f-titre);font-weight:600;color:var(--rubrique);font-size:1.35rem;margin:0 0 4px;line-height:1.1}
 .boite-doc p{margin:0 0 .6em;font-size:.98rem;line-height:1.45}
 .boite-doc .credit{display:block;font-size:.8rem;color:var(--encre-douce)}
 .lien-doc{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:var(--r-pastille);background:var(--encre);color:var(--papier);text-decoration:none;font-size:.96rem}
@@ -205,7 +204,7 @@ button:focus-visible,.lieu-plan:focus-visible,a:focus-visible{outline:2px solid 
 /* Épreuves */
 .zone-jeu{flex:1;min-height:0;overflow:auto;display:flex;justify-content:center;align-items:flex-start}
 .jeu{width:100%;max-width:1040px;padding:12px 18px;border:1px solid var(--encre-douce);border-radius:16px;background:rgba(255,250,238,.55)}
-.jeu h3{font-family:var(--f-titre);font-weight:400;color:var(--rubrique);font-size:1.5rem;margin:0 0 2px;line-height:1.1}
+.jeu h3{font-family:var(--f-titre);font-weight:600;color:var(--rubrique);font-size:1.5rem;margin:0 0 2px;line-height:1.1}
 .jeu .consigne{margin:0 0 10px;font-size:.95rem}
 .jeu .retour{min-height:1.4em;margin:8px 0 0;font-style:italic;color:var(--encre-douce)}
 .jeu .retour.ok{color:var(--cuivre);font-style:normal;font-weight:600}
@@ -357,6 +356,7 @@ body.lecture *,body.lecture *::before,body.lecture *::after{animation:none!impor
 .carte-boite{min-height:0;display:flex;justify-content:center}
 .carte-svg{display:block;width:100%;height:auto;max-height:calc(var(--h,100vh) - 120px);border-radius:10px;border:2px solid var(--encre)}
 .lien-carte{font:inherit;font-size:.86rem;color:var(--nuit);background:var(--lavis);border:1px solid var(--nuit);border-radius:999px;padding:1px 10px;margin-left:4px;cursor:pointer}
+.rubrique-haut .fol,.carnet-tete .nom,.centre-zone,.chrono,.etape-btn .num{font-weight:600}
 </style>
 
 <div class="app">
@@ -535,7 +535,9 @@ var MOTS={
  'hospice':"une maison tenue par des religieux, qui accueille gratuitement les voyageurs et les pauvres",
  'ramasse':"au Mont-Cenis, un traîneau sur lequel les marrons font descendre les voyageurs dans la neige",
  'avalanche':"une masse de neige qui se détache d'une pente et dévale la montagne",
- 'brigands':"des voleurs qui attaquent les voyageurs sur les routes"
+ 'brigands':"des voleurs qui attaquent les voyageurs sur les routes",
+ 'bulle':"une lettre officielle du pape, qui fait connaître ses décisions à toute la chrétienté ; elle porte un sceau de plomb, la bulla en latin, d'où son nom",
+ 'saint Christophe':"un saint qui, selon la légende, a porté l'Enfant Jésus sur ses épaules pour lui faire traverser un fleuve ; on le prie pour protéger les voyageurs"
 };
 function fmt(s){if(typeof s!=='string')return s;return s.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g,function(_,k,l){return '<button type="button" class="mot" data-mot="'+k.replace(/"/g,'&quot;')+'" aria-expanded="false">'+(l||k)+'</button>';});}
 function texteBrut(s){return String(s).replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g,function(_,k,l){return l||k;}).replace(/<[^>]+>/g,'');}
@@ -759,44 +761,44 @@ couverture:function(){return cadre([
   cathedrale(170,262,1)+maison(30,262,70,60,LAV.papier)+maison(102,262,58,74,LAV.rose)+maison(430,262,64,66,LAV.ocre)+maison(500,262,56,54,LAV.papier)+maison(560,262,66,70,LAV.vert)+
   '<rect x="10" y="262" width="620" height="70" fill="#f6efdf"/>'+eau(262,4),
   fig(118,330,96,LAV.rouge,'beret')+P('M100 280l-24 30','none',2.4)+P(R(126,262,20,26),LAV.brun,1.3)],
-  'TRECAE · MDXIX','Gravure : Troyes en 1519, la cathédrale et ses maisons à pans de bois ; Jehan, son bâton à la main, prêt à partir',false);},
+  'TROYES · 1519','Gravure : Troyes en 1519, la cathédrale et ses maisons à pans de bois ; Jehan, son bâton à la main, prêt à partir',false);},
 atelier:function(){return cadre([
   '<rect x="10" y="10" width="620" height="320" fill="'+LAV.pierre+'" opacity=".5"/><rect x="10" y="10" width="620" height="320" fill="url(#g-vt)" opacity=".25"/>'+
   vitrailFen(70,40,110,210,[LAV.nuit,LAV.rouge,LAV.vert,LAV.or,LAV.bleu,LAV.rose])+
   P(R(250,80,150,110),'#f6efdf',1.5)+P('M260 100h130M260 120h80M300 140l30 30l30 -40','none',1)+P('M250 190l-10 60M400 190l10 60','none',2)+
   P('M470 250V150q60-40 120 0v100Z',LAV.brun,1.6)+H('M470 250V150q60-40 120 0v100Z','dk',.6)+'<rect x="505" y="190" width="50" height="40" fill="#1c1915"/>'+flamme(530,230,.8,LAV.rouge)+flamme(518,230,.6)+fumee(530,140,1)+sol(250,LAV.brun),
   fig(320,320,120,LAV.vert,'',null,P('M290 236l-22 -10','none',2))+fig(210,322,96,LAV.rouge,'beret')],
-  'OFFICINA VITRARIA','Gravure : l\'atelier de maître Nicolas, une verrière en cours, la table à dessin et le four à cuire le verre',false);},
+  'L\'ATELIER DU VERRIER','Gravure : l\'atelier de maître Nicolas, une verrière en cours, la table à dessin et le four à cuire le verre',false);},
 troyes:function(){return cadre([
   soleil(90,70,20)+nuage(420,70,1)+cathedrale(240,250,1.05)+maison(20,250,80,80,LAV.papier)+maison(104,250,60,96,LAV.rose)+maison(168,250,62,70,LAV.ocre)+
   maison(470,250,70,84,LAV.vert)+maison(544,250,80,68,LAV.papier)+sol(250,LAV.pierre),
   foule(80,320,6,48)+fig(470,322,64,LAV.nuit,'chapeau')],
-  'TRECAE','Gravure : la place de Troyes devant la cathédrale à la façade inachevée',false);},
+  'TROYES','Gravure : la place de Troyes devant la cathédrale à la façade inachevée',false);},
 echoppe:function(){return cadre([
   '<rect x="10" y="10" width="620" height="320" fill="'+LAV.pierre+'" opacity=".45"/>'+P(R(380,40,200,130),'#f6efdf',2)+'<rect x="384" y="44" width="192" height="122" fill="url(#g-hz)" opacity=".4"/>'+
   '<g transform="translate(500 120)"><circle r="44" fill="'+LAV.brun+'" stroke="#1c1915" stroke-width="1.6"/><g class="a-lueur">'+P('M-44 0h88M0 -44v88M-31 -31l62 62M31 -31l-62 62','none',1.4)+'</g></g>'+eau(150,2)+
   P(R(60,140,90,110),LAV.papier,1.3)+P('M60 150h90M60 162h90M60 174h90M60 186h90M60 198h90M60 210h90M60 222h90M60 234h90','none',.7)+
   P(R(170,170,80,80),LAV.papier,1.3)+P('M170 180h80M170 192h80M170 204h80M170 216h80M170 228h80','none',.7)+sol(250,LAV.brun),
   fig(300,322,104,LAV.nuit,'coiffe')+fig(370,322,90,LAV.ocre,'coiffe')+fig(230,322,98,LAV.rouge,'beret')],
-  'PAPYRVS TRECENSIS','Gravure : l\'échoppe de papier de ta mère, les rames empilées et, par la fenêtre, la roue du moulin sur la rivière',false);},
+  'LE PAPIER DE TROYES','Gravure : l\'échoppe de papier de ta mère, les rames empilées et, par la fenêtre, la roue du moulin sur la rivière',false);},
 marche:function(){return cadre([
   eglise(420,236,1.1)+maison(30,236,70,70,LAV.ocre)+maison(104,236,64,86,LAV.papier)+
   P('M200 236v-70h120v70','none',1.4)+P('M190 166h140l-10 -20h-120z',LAV.rouge,1.4)+P('M200 196h120M200 216h120','none',.8)+sol(236,LAV.pierre),
   fig(250,326,110,LAV.ocre,'chapeau')+P(R(270,200,80,96),'#f6efdf',1.6)+P(R(278,208,30,36),'url(#g-x)',1)+P(R(314,208,30,36),'url(#g-dk)',1)+P(R(278,250,66,38),'url(#g-dg)',1)+
   fig(150,326,96,LAV.rouge,'beret')+fig(400,328,90,LAV.nuit,'coiffe')+fig(450,328,96,LAV.vert)],
-  'FORVM','Gravure : sur le marché, un colporteur déplie sa planche d\'images gravées',false);},
+  'LE MARCHÉ','Gravure : sur le marché, un colporteur déplie sa planche d\'images gravées',false);},
 parvis:function(){return cadre([
   P(R(220,40,200,200),LAV.pierre,1.6)+H(R(220,40,200,200),'dg',.35)+P('M260 240V120q60-80 120 0v120','none',1.6)+H('M260 240V120q60-80 120 0v120Z','dk',.75)+
   P('M200 40l120 -26l120 26','none',1.6)+P(R(160,190,50,50),LAV.pierre,1.3)+P(R(430,190,50,50),LAV.pierre,1.3)+sol(240,LAV.pierre),
   P(R(280,214,80,24),LAV.brun,1.4)+fig(320,214,82,'#f6efdf','capuche')+P('M352 150v-60M338 104h28','none',2.4)+
   P(R(370,206,46,30),LAV.brun,1.5)+H(R(370,206,46,30),'dk',.7)+P('M370 206l23 -12l23 12','none',1.4)+
   foule(60,326,8,76)+foule(420,326,5,74)],
-  'PARDON · MDXIX','Gravure : devant l\'église, un prédicateur et son coffre ; la foule écoute',false);},
+  'LE PARDON · 1519','Gravure : devant l\'église, un prédicateur et son coffre ; la foule écoute',false);},
 route:function(){return cadre([
   soleil(110,60,18)+montagnes(250)+nuage(400,60,1)+arbre(520,250,1.2)+arbre(570,256,1)+sol(250,LAV.vert),
   P('M320 330q-20 -40 30 -80','none',1.2,' stroke-dasharray="4 4"')+fig(300,326,96,LAV.rouge,'beret')+
   P('M330 300q10-30 60-26q30 0 36 26l-4 26h-8l-2-18h-60l-2 18h-8z',LAV.brun,1.4)+P('M424 282l14 -16l6 10','none',1.4)],
-  'ALPES','Gravure : Jehan franchit les Alpes avec un muletier',false);},
+  'LES ALPES','Gravure : Jehan franchit les Alpes avec un muletier',false);},
 rome:function(){return cadre([
   nuage(80,80,1)+soleil(560,60,18)+
   P(R(30,150,140,90),LAV.pierre,1.5)+P('M30 150l70 -40l70 40','none',1.5)+H(R(30,150,140,90),'dg',.35)+
@@ -804,86 +806,86 @@ rome:function(){return cadre([
   P('M520 240v-150l10 -20l10 20v150z','#f6efdf',1.5)+H('M520 240v-150l10 -20l10 20v150z','dg',.4)+
   P('M560 240v-60a50 50 0 0 1 60 0v60','none',1.5)+sol(240,LAV.pierre),
   foule(420,322,4,70)+fig(140,326,98,LAV.rouge,'beret')],
-  'ROMA · MDXX','Gravure : à Rome, le chantier de Saint-Pierre, ses piliers et sa grue, près de l\'obélisque',false);},
+  'ROME · 1520','Gravure : à Rome, le chantier de Saint-Pierre, ses piliers et sa grue, près de l\'obélisque',false);},
 sixtine:function(){var s='<rect x="10" y="10" width="620" height="320" fill="'+LAV.pierre+'" opacity=".5"/>';
   for(var i=0;i<4;i++){var x=40+i*145;s+=P(R(x,40,130,110),'#f6efdf',2)+'<rect x="'+(x+4)+'" y="44" width="122" height="102" fill="'+[LAV.bleu,LAV.rose,LAV.vert,LAV.ocre][i]+'" opacity=".55"/>';}
   s+=fig(110,140,70,LAV.rose,'')+P('M140 90q30 -10 50 0','none',2)+P('M300 80q20-14 50 10q-30 8 -50 -10z',LAV.rose,1.3)+P('M190 90l20 -4','none',1.6);
   s+=P('M10 160h620','none',3)+P('M40 160q80 -10 130 0M300 160q80 -10 130 0','none',1);
   for(var j=0;j<6;j++){var xx=40+j*100;s+=P(R(xx,170,70,70),LAV.pierre,1.3)+fig(xx+35,236,56,[LAV.vert,LAV.rouge,LAV.nuit][j%3],j%2?'coiffe':'');}
-  return cadre([s+sol(260,LAV.pierre),fig(320,330,90,LAV.rouge,'beret')+fig(400,330,86,LAV.ocre)],'CAPELLA SIXTINA','Gravure : la voûte de la chapelle Sixtine, ses scènes et ses prophètes ; Jehan lève les yeux',false);},
+  return cadre([s+sol(260,LAV.pierre),fig(320,330,90,LAV.rouge,'beret')+fig(400,330,86,LAV.ocre)],'LA CHAPELLE SIXTINE','Gravure : la voûte de la chapelle Sixtine, ses scènes et ses prophètes ; Jehan lève les yeux',false);},
 pantheon:function(){var s=P('M160 240v-120h320v120','none',1.6)+P('M150 120l170 -50l170 50z',LAV.pierre,1.6);
   for(var i=0;i<8;i++)s+=colonne(172+i*40,240,110);
   s+=P('M250 70q70 -60 140 0','none',1.6)+H('M250 70q70 -60 140 0Z','hz',.6)+sol(240,LAV.pierre);
-  return cadre([nuage(60,60,1)+s,foule(100,326,10,72)+'<g class="a-lueur">'+[160,220,280,340,400,460].map(function(x){return P('M'+x+' 268v-16','none',1.5)+'<circle cx="'+x+'" cy="248" r="3" fill="'+LAV.ocre+'"/>';}).join('')+'</g>'],'PANTHEON · VI APR MDXX','Gravure : le cortège funèbre de Raphaël devant le Panthéon, cierges allumés',false);},
+  return cadre([nuage(60,60,1)+s,foule(100,326,10,72)+'<g class="a-lueur">'+[160,220,280,340,400,460].map(function(x){return P('M'+x+' 268v-16','none',1.5)+'<circle cx="'+x+'" cy="248" r="3" fill="'+LAV.ocre+'"/>';}).join('')+'</g>'],'LE PANTHÉON · 6 AVRIL 1520','Gravure : le cortège funèbre de Raphaël devant le Panthéon, cierges allumés',false);},
 cloitre:function(){var s='';for(var i=0;i<5;i++){var x=40+i*118;s+=P('M'+x+' 240v-110q46-60 92 0v110','none',1.6)+H('M'+x+' 240v-110q46-60 92 0v110Z','dk',.3)+colonne(x-8,240,110);}
-  return cadre([s+arbre(320,250,1.3)+sol(250,LAV.vert),fig(240,326,110,'#1c1915','capuche')+fig(380,326,100,LAV.rouge,'beret')],'MONASTERIVM','Gravure : dans le cloître, frère Matthias parle avec Jehan',false);},
+  return cadre([s+arbre(320,250,1.3)+sol(250,LAV.vert),fig(240,326,110,'#1c1915','capuche')+fig(380,326,100,LAV.rouge,'beret')],'LE COUVENT DES AUGUSTINS','Gravure : dans le cloître, frère Matthias parle avec Jehan',false);},
 nuremberg:function(){return cadre([
   P('M380 150q60 -70 140 -50q40 20 90 30v70h-230z',LAV.pierre,1.5)+P(R(470,70,30,40),LAV.pierre,1.4)+P('M466 70l19 -24l19 24','none',1.4)+
   maison(60,250,150,120,LAV.ocre,80)+P('M60 190h150','none',1.3)+maison(220,250,110,90,LAV.papier)+maison(340,250,90,80,LAV.rose)+sol(250,LAV.pierre),
   fig(140,326,110,LAV.brun,'',null,'')+P('M140 220q-10 30 -20 40','none',1)+fig(260,326,100,LAV.rouge,'beret')+
   P(R(330,200,110,90),'#f6efdf',1.6)+rhino(338,286,.55)+P('M360 290l-14 40M420 290l14 40','none',2)],
-  'NORENBERGA · MDXX','Gravure : la grande maison de Dürer à Nuremberg ; sur un chevalet, la planche du Rhinocéros',false);},
+  'NUREMBERG · 1520','Gravure : la grande maison de Dürer à Nuremberg ; sur un chevalet, la planche du Rhinocéros',false);},
 bruxelles:function(){return cadre([
   P(R(60,100,300,140),LAV.pierre,1.6)+H(R(60,100,300,140),'dg',.3)+P('M60 100l20 -20h260l20 20','none',1.4)+
   P(R(180,20,50,80),LAV.pierre,1.6)+P('M180 20l25 -10l25 10','none',1.4)+
   [80,130,250,300].map(function(x){return P('M'+x+' 140v-24q12 -14 24 0v24z','#1c1915',1);}).join('')+sol(240,LAV.pierre),
   P(R(380,200,230,40),LAV.brun,1.5)+soleilMexica(440,150,38)+bouclierPlumes(560,158,30)+foule(60,326,7,80)+fig(400,326,100,LAV.brun,'')],
-  'BRVXELLA · MDXX','Gravure : à l\'hôtel de ville de Bruxelles, le soleil d\'or et les boucliers de plumes envoyés du Mexique',false);},
+  'BRUXELLES · 1520','Gravure : à l\'hôtel de ville de Bruxelles, le soleil d\'or et les boucliers de plumes envoyés du Mexique',false);},
 nassau:function(){return cadre([
   '<rect x="10" y="10" width="620" height="320" fill="'+LAV.pierre+'" opacity=".45"/><rect x="10" y="10" width="620" height="320" fill="url(#g-vt)" opacity=".18"/>'+
   triptyque(230,50,200,170)+P('M120 50v190M520 50v190','none',1.2)+sol(250,LAV.brun),
   fig(200,326,104,LAV.brun,'')+fig(300,326,100,LAV.rouge,'beret')+fig(470,326,96,LAV.nuit,'chapeau')],
-  'DOMVS NASSOVIAE','Gravure : à l\'hôtel de Nassau, le grand tableau en trois panneaux de Jérôme Bosch',false);},
+  'L\'HÔTEL DE NASSAU','Gravure : à l\'hôtel de Nassau, le grand tableau en trois panneaux de Jérôme Bosch',false);},
 anvers:function(){return cadre([
   soleil(90,60,16)+P(R(470,50,40,190),LAV.pierre,1.6)+P('M470 50l20 -40l20 40','none',1.5)+P(R(476,70,28,8),'none',1)+H(R(470,50,40,190),'dg',.3)+
   maison(520,240,50,70,LAV.ocre)+maison(572,240,52,84,LAV.papier)+maison(400,240,64,64,LAV.rose)+
   grue(330,240,.8)+'<rect x="10" y="240" width="620" height="90" fill="#f6efdf"/>'+eau(240,7),
   navire(130,262,1.1,true)+navire(300,272,.8)+P(R(420,226,180,14),LAV.brun,1.4)+P(R(440,206,30,20),LAV.ocre,1.2)+P(R(476,210,26,16),LAV.papier,1.2)+fig(560,240,60,LAV.nuit,'beret')],
-  'ANTVERPIA · MDXX','Gravure : le port d\'Anvers sur l\'Escaut, ses navires, sa grue et la tour de Notre-Dame',false);},
+  'ANVERS · 1520','Gravure : le port d\'Anvers sur l\'Escaut, ses navires, sa grue et la tour de Notre-Dame',false);},
 erasme:function(){return cadre([
   '<rect x="10" y="10" width="620" height="320" fill="'+LAV.pierre+'" opacity=".4"/>'+P(R(60,40,120,150),'#f6efdf',1.6)+P('M120 40v150M60 115h120','none',1.4)+
   P(R(420,60,180,160),LAV.brun,1.4)+[0,1,2,3].map(function(i){return P(R(430+i*40,70,30,60),[LAV.rouge,LAV.vert,LAV.nuit,LAV.ocre][i],1.2)+P(R(430+i*40,140,30,60),[LAV.ocre,LAV.nuit,LAV.rouge,LAV.vert][i],1.2);}).join('')+sol(250,LAV.brun),
   P(R(180,200,200,16),LAV.brun,1.5)+P('M190 216v100M370 216v100','none',2)+livre(220,184,1)+fig(300,280,110,'#1c1915','',null,P('M318 198l26 -18','none',1.4))+fig(470,326,96,LAV.rouge,'beret')],
-  'ERASMVS ROTERODAMVS','Gravure : Érasme écrit à sa table, entouré de ses livres',false);},
+  'ÉRASME DE ROTTERDAM','Gravure : Érasme écrit à sa table, entouré de ses livres',false);},
 crieur:function(){return cadre([
   maison(30,240,80,90,LAV.papier)+maison(114,240,70,110,LAV.ocre)+maison(450,240,80,96,LAV.rose)+maison(534,240,90,80,LAV.papier)+P(R(200,90,230,150),LAV.pierre,1.5)+sol(240,LAV.pierre),
   P(R(260,200,110,40),LAV.brun,1.4)+fig(316,200,90,LAV.rouge,'chapeau')+P(R(330,120,40,52),'#f6efdf',1.3)+P('M336 130h28M336 138h28M336 146h22','none',.7)+foule(60,326,6,74)+foule(400,326,6,74)],
-  'ANTVERPIA · MDXXI','Gravure : à Anvers, un crieur lit l\'édit de l\'empereur contre les livres de Luther',false);},
+  'ANVERS · 1521','Gravure : à Anvers, un crieur lit l\'édit de l\'empereur contre les livres de Luther',false);},
 bale:function(){return cadre([
   nuage(80,60,1)+soleil(560,60,16)+P(R(230,60,40,130),LAV.rouge,1.5)+P(R(300,60,40,130),LAV.rouge,1.5)+P('M230 60l20 -40l20 40M300 60l20 -40l20 40',LAV.rouge,1.4)+
   P(R(200,120,170,70),LAV.rose,1.5)+H(R(200,120,170,70),'dg',.3)+maison(40,190,70,60,LAV.papier)+maison(114,190,70,74,LAV.ocre)+maison(400,190,64,60,LAV.papier)+maison(468,190,70,70,LAV.vert)+
   '<rect x="10" y="190" width="620" height="140" fill="#f6efdf"/>'+eau(190,10),
   P('M10 236h620','none',4)+[60,160,260,360,460,560].map(function(x){return P('M'+x+' 236v40','none',3);}).join('')+navire(470,300,.6)],
-  'BASILEA · MDXXII','Gravure : Bâle, sa cathédrale de grès rouge et le pont sur le Rhin',false);},
+  'BÂLE · 1522','Gravure : Bâle, sa cathédrale de grès rouge et le pont sur le Rhin',false);},
 imprimerie:function(){return cadre([
   '<rect x="10" y="10" width="620" height="320" fill="'+LAV.pierre+'" opacity=".4"/>'+P('M30 60h580','none',1)+[60,110,160,210,410,460,510,560].map(function(x){return feuille(x,62,36,46);}).join('')+
   presse(250,300,1.05)+P(R(450,190,140,110),LAV.brun,1.4)+'<rect x="456" y="196" width="128" height="98" fill="url(#g-x)" opacity=".6"/>'+sol(300,LAV.brun),
   fig(200,326,112,LAV.rouge,'beret')+fig(420,326,106,'#1c1915','coiffe')],
-  'OFFICINA TYPOGRAPHICA','Gravure : l\'atelier d\'imprimerie de dame Ursula, la presse, la casse et les feuilles qui sèchent',false);},
+  'L\'ATELIER DE L\'IMPRIMEUR','Gravure : l\'atelier d\'imprimerie de dame Ursula, la presse, la casse et les feuilles qui sèchent',false);},
 magellan:function(){return cadre([
   maison(30,240,80,90,LAV.ocre)+maison(530,240,90,90,LAV.papier)+P(R(200,40,240,190),'#f6efdf',1.8)+
   '<circle cx="270" cy="120" r="46" fill="'+LAV.bleu+'" stroke="#1c1915" stroke-width="1.4"/>'+P('M224 120h92M270 74v92M236 92q34 14 68 0M236 148q34 -14 68 0','none',.9)+
   navire(380,150,.5)+P('M220 190h200M220 202h200M220 214h150','none',.8)+sol(240,LAV.pierre),
   foule(140,326,8,76)],
-  'NAVIS VICTORIA · MDXXII','Gravure : une feuille imprimée annonce le retour du navire Victoria, qui a fait le tour du monde',false);},
+  'LE NAVIRE VICTORIA · 1522','Gravure : une feuille imprimée annonce le retour du navire Victoria, qui a fait le tour du monde',false);},
 sermon:function(){var s='<rect x="10" y="10" width="620" height="320" fill="'+LAV.pierre+'" opacity=".45"/>';
   for(var i=0;i<4;i++){var x=60+i*150;s+=P('M'+x+' 220v-120q30 -36 60 0v120z','#f6efdf',1.4)+fig(x+30,214,80,[LAV.rouge,LAV.nuit,LAV.ocre,LAV.vert][i],'coiffe');}
-  return cadre([s+sol(240,LAV.pierre),P(R(270,170,90,70),LAV.brun,1.4)+fig(315,176,80,'#1c1915','')+P('M330 120l40 -20','none',2)+foule(60,326,10,74)],'BASILEA · MDXXIII','Gravure : dans une église, un prédicateur montre les statues des saints et parle contre les images',false);},
+  return cadre([s+sol(240,LAV.pierre),P(R(270,170,90,70),LAV.brun,1.4)+fig(315,176,80,'#1c1915','')+P('M330 120l40 -20','none',2)+foule(60,326,10,74)],'BÂLE · 1523','Gravure : dans une église, un prédicateur montre les statues des saints et parle contre les images',false);},
 incendie:function(){return cadre([
   '<rect x="10" y="10" width="620" height="180" fill="'+LAV.ocre+'" opacity=".35"/>'+fumee(150,110,2)+fumee(330,90,2.4)+fumee(500,110,2)+
   cathedrale(250,240,.8)+maison(30,240,80,90,LAV.papier)+maison(114,240,70,104,LAV.papier)+maison(440,240,70,90,LAV.papier)+maison(514,240,100,80,LAV.papier)+
   flamme(70,150,1.4,LAV.rouge)+flamme(150,140,1.6)+flamme(480,150,1.4,LAV.rouge)+flamme(560,160,1.5)+sol(240,LAV.pierre),
   foule(140,326,9,76)+P('M140 270h320','none',1.2,' stroke-dasharray="6 6"')],
-  'TRECAE · MAI MDXXIV','Gravure : Troyes en flammes ; les habitants font la chaîne des seaux',false);},
+  'TROYES · MAI 1524','Gravure : Troyes en flammes ; les habitants font la chaîne des seaux',false);},
 reconstruction:function(){return cadre([
   P(R(380,60,200,180),LAV.pierre,1.6)+H(R(380,60,200,180),'dg',.25)+P('M380 60l100 -40l100 40','none',1.5)+P(R(410,90,40,50),'#1c1915',1)+P(R(510,90,40,50),'#1c1915',1)+
   P('M60 240V110h220v130M60 110l110 -60l110 60M60 175h220M133 110v130M206 110v130M60 110l73 65M133 110l-73 65M206 175l74 65M280 175l-74 65','none',2.4)+sol(240,LAV.pierre),
   fig(100,326,104,LAV.rouge,'beret')+fig(230,326,100,LAV.brun,'')+P('M240 230l60 -40','none',3)+fig(330,326,96,LAV.nuit,'chapeau')],
-  'TRECAE · MDXXIV','Gravure : on rebâtit Troyes, en pans de bois et en pierre',false);},
+  'TROYES · 1524','Gravure : on rebâtit Troyes, en pans de bois et en pierre',false);},
 verriere:function(){var cols=[LAV.nuit,LAV.rouge,LAV.vert,LAV.or,LAV.bleu,LAV.rose];
   var s='<rect x="10" y="10" width="620" height="320" fill="'+LAV.pierre+'" opacity=".5"/>'+vitrailFen(230,26,180,280,cols);
   s+=soleilMexica(320,90,22)+rhino(250,190,.3)+navire(372,190,.22)+livre(258,236,.6)+bouclierPlumes(350,250,14);
-  return cadre([s+sol(310,LAV.pierre),fig(120,326,110,LAV.rouge,'beret')+fig(520,326,104,LAV.brun,'chaperon')],'OPVS IOHANNIS · MDXXIV','Gravure : la verrière de Jehan, où se mêlent un soleil d\'or, un rhinocéros, un navire, un livre et des plumes',false);},
+  return cadre([s+sol(310,LAV.pierre),fig(120,326,110,LAV.rouge,'beret')+fig(520,326,104,LAV.brun,'chaperon')],'L\'ŒUVRE DE JEHAN · 1524','Gravure : la verrière de Jehan, où se mêlent un soleil d\'or, un rhinocéros, un navire, un livre et des plumes',false);},
 carte:function(){return '<div class="boite-grav">'+carteVoyage(true)+'</div>';}
 };
 var LEG={couverture:'Troyes, au printemps 1519',atelier:'L\'atelier de maître Nicolas',troyes:'La cathédrale de Troyes et sa façade inachevée',echoppe:'L\'échoppe de papier',marche:'Le marché et le colporteur',parvis:'Le pardon devant l\'église',route:'Le passage des Alpes',rome:'Le chantier de Saint-Pierre',sixtine:'La chapelle Sixtine',pantheon:'Les funérailles de Raphaël',cloitre:'Le cloître des augustins',nuremberg:'Nuremberg, chez Dürer',bruxelles:'L\'hôtel de ville de Bruxelles',nassau:'L\'hôtel de Nassau',anvers:'Le port d\'Anvers',erasme:'Érasme à sa table',crieur:'Le crieur d\'Anvers',bale:'Bâle et le Rhin',imprimerie:'L\'atelier de dame Ursula',magellan:'La feuille du Victoria',sermon:'Le sermon contre les images',incendie:'L\'incendie de Troyes',reconstruction:'Troyes se rebâtit',verriere:'La verrière de Jehan',carte:'La route de Jehan'};
@@ -920,7 +922,7 @@ function marqueur(k,p,n,opts){
 }
 function fondPlan(){return DEFS()+'';}
 function rose(x,y){return '<g transform="translate('+x+' '+y+')"><circle r="20" fill="#f6efdf" stroke="#1c1915"/><path d="M0-18L5 0L0 18L-5 0Z" fill="#1c1915"/><path d="M-18 0L0-5L18 0L0 5Z" fill="#f6efdf" stroke="#1c1915"/><text y="-24" text-anchor="middle" font-size="13" font-family="Georgia,serif" fill="#1c1915">N</text></g>';}
-function cartouche(x,y,w,t){return '<g><rect x="'+x+'" y="'+y+'" width="'+w+'" height="34" rx="6" fill="#f6efdf" stroke="#1c1915" stroke-width="1.4"/><text x="'+(x+w/2)+'" y="'+(y+23)+'" text-anchor="middle" font-size="17" fill="#1c1915" font-family="\'UnifrakturMaguntia\',Georgia,serif">'+t+'</text></g>';}
+function cartouche(x,y,w,t){return '<g><rect x="'+x+'" y="'+y+'" width="'+w+'" height="34" rx="6" fill="#f6efdf" stroke="#1c1915" stroke-width="1.4"/><text x="'+(x+w/2)+'" y="'+(y+23)+'" text-anchor="middle" font-size="17" fill="#1c1915" font-family="\'EB Garamond\',Georgia,serif" font-weight="600">'+t+'</text></g>';}
 function ilots(pts){var s='';pts.forEach(function(p){s+='<rect x="'+p[0]+'" y="'+p[1]+'" width="'+p[2]+'" height="'+p[3]+'" fill="#ddd2bb" stroke="#1c1915" stroke-width=".8"/><rect x="'+p[0]+'" y="'+p[1]+'" width="'+p[2]+'" height="'+p[3]+'" fill="url(#g-dg)" opacity=".35"/>';});return s;}
 function planTroyes(opts){
   opts=opts||{};
@@ -999,7 +1001,7 @@ function carteVoyage(complet){
   ETAPES.forEach(function(e){if(!vues[e.k])return;var est=e.k===ici&&!complet;
     if(est)h+='<circle cx="'+e.x+'" cy="'+e.y+'" r="13" fill="none" stroke="#c08a33" stroke-width="4"/>';
     h+='<circle cx="'+e.x+'" cy="'+e.y+'" r="7" fill="'+(est?'#c08a33':'#a63a24')+'" stroke="#1c1915" stroke-width="2"/>';
-    h+='<text x="'+e.lx+'" y="'+e.ly+'" text-anchor="'+e.an+'" font-size="19" fill="#1c1915" stroke="#efe6d2" stroke-width="4" paint-order="stroke" font-family="\'UnifrakturMaguntia\',Georgia,serif">'+e.n+'</text>';
+    h+='<text x="'+e.lx+'" y="'+e.ly+'" text-anchor="'+e.an+'" font-size="19" fill="#1c1915" stroke="#efe6d2" stroke-width="4" paint-order="stroke" font-family="\'EB Garamond\',Georgia,serif" font-weight="600">'+e.n+'</text>';
     h+='<text x="'+e.lx+'" y="'+(e.ly+15)+'" text-anchor="'+e.an+'" font-size="11.5" font-style="italic" fill="#4f463b" stroke="#efe6d2" stroke-width="3" paint-order="stroke" font-family="Georgia,serif">'+e.a+'</text>';});
   h+='<g font-family="Georgia,serif" font-size="12"><rect x="10" y="'+(EUROPE.H-58)+'" width="236" height="48" rx="8" fill="#f6efdf" stroke="#1c1915"/>';
   h+='<circle cx="26" cy="'+(EUROPE.H-41)+'" r="6" fill="#a63a24" stroke="#1c1915" stroke-width="1.5"/><text x="38" y="'+(EUROPE.H-37)+'" fill="#1c1915">étape du voyage de Jehan</text>';
@@ -1350,7 +1352,8 @@ JEUX.adages=function(el,fin){associer(el,fin,{titre:'Les adages d\'Érasme',cons
 
 JEUX.incendie=function(el,fin){
   var J=monterJeu(el,'L\'incendie','Le vent pousse le feu de toit en toit. Chaque fois que tu touches une maison en feu, tu y envoies un seau : un petit feu s\'éteint d\'un seau, un grand feu en demande trois. Mais les seaux mettent du temps à revenir du puits ! Si tu perds plus de quatre maisons, le quartier est perdu. Tiens 40 secondes.',fin);
-  var C=6,L=3,N=C*L,CAL=calme(),PAS=CAL?900:700,etat=[],perdues=0,temps=40,fini=false,timers=[],seauPret=0,rafale=0,debut=Date.now();
+  var C=6,L=3,N=C*L,CAL=calme(),PAS=CAL?900:700,DUREE=40000,etat=[],perdues=0,temps=40,fini=false,timers=[],seauPret=0,rafale=0,simT=0,acc=0,dernier=performance.now(),rafaleFaite=false,allumage2=false;
+  function maintenant(){return performance.now();}
   for(var i=0;i<N;i++)etat.push({n:0});
   function voisins(j){var r=Math.floor(j/C),c=j%C,v=[];if(c>0)v.push(j-1);if(c<C-1)v.push(j+1);if(r>0)v.push(j-C);if(r<L-1)v.push(j+C);return v;}
   function maisonSvg(m){var f='';
@@ -1358,14 +1361,14 @@ JEUX.incendie=function(el,fin){
     return '<svg viewBox="0 -10 40 52" aria-hidden="true"><path d="M5 40V18L20 5l15 13v22z" fill="'+(m.n>=4?'#4f463b':'#ddd2bb')+'" stroke="#1c1915" stroke-width="1.4"/><path d="M5 26h30M15 18v22M25 18v22M5 18l10 8M15 18l-10 8" stroke="#1c1915" stroke-width="1"/>'+f+'</svg>';}
   function etiquette(m){return m.n>=4?', brûlée':m.n===3?', grand feu':m.n>0?', en feu':'';}
   function dessiner(){
-    var pret=Date.now()>=seauPret;
+    var pret=simT>=seauPret;
     var h='<p class="chrono" id="chrono">'+temps+' s'+(rafale>0?' · rafale de vent !':'')+'</p><div class="barre"><span style="width:'+Math.min(100,perdues*100/5)+'%"></span></div>';
     h+='<p class="petit" style="text-align:center;margin:0 0 6px">'+(pret?'Les seaux sont prêts.':'Les seaux reviennent du puits…')+'</p><div class="maisons" style="grid-template-columns:repeat('+C+',minmax(0,1fr));max-width:620px">';
     etat.forEach(function(m,j){h+='<button type="button" class="maison'+(m.n>=4?' perdue':(m.n>0?' feu':''))+'" data-m="'+j+'" aria-label="Maison '+(j+1)+etiquette(m)+'"'+(m.n>=4?' disabled':'')+'>'+maisonSvg(m)+'</button>';});
     J.corps.innerHTML=h+'</div><p class="petit" style="text-align:center">Maisons perdues : '+perdues+' (pas plus de 4)</p>';
-    J.corps.querySelectorAll('[data-m]').forEach(function(b){b.addEventListener('click',function(){var m=etat[+b.getAttribute('data-m')];if(fini||m.n>=4||m.n===0)return;
-      if(Date.now()<seauPret){J.dire('Attends : les seaux ne sont pas encore revenus.','ko');return;}
-      m.n--;seauPret=Date.now()+(CAL?650:500);J.dire(m.n===0?'Le feu est éteint.':'Le feu recule, il faut encore de l\'eau.','ok');dessiner();});});
+    J.corps.querySelectorAll('[data-m]').forEach(function(b){b.addEventListener('click',function(){avancer();if(fini)return;var m=etat[+b.getAttribute('data-m')];if(m.n>=4||m.n===0)return;
+      if(simT<seauPret){J.dire('Attends : les seaux ne sont pas encore revenus.','ko');return;}
+      m.n--;seauPret=simT+(CAL?650:500);J.dire(m.n===0?'Le feu est éteint.':'Le feu recule, il faut encore de l\'eau.','ok');dessiner();});});
   }
   function allumer(){var libres=[];etat.forEach(function(m,j){if(m.n===0)libres.push(j);});if(libres.length){etat[libres[Math.floor(Math.random()*libres.length)]].n=1;}}
   function tic(){if(fini)return;var vent=rafale>0?2:1;
@@ -1373,14 +1376,29 @@ JEUX.incendie=function(el,fin){
       if(m.n>=2&&m.n<4&&Math.random()<.07*vent){var v=voisins(j).filter(function(k){return etat[k].n===0;});if(v.length)etat[v[Math.floor(Math.random()*v.length)]].n=1;}}});
     if(Math.random()<(CAL?.2:.28)*vent)allumer();
     if(rafale>0)rafale--;
-    var ecoule=Math.floor((Date.now()-debut)/1000);temps=Math.max(0,40-ecoule);
-    if(ecoule===18&&!rafale){rafale=Math.round(6000/PAS);allumer();allumer();}
+    temps=Math.max(0,Math.ceil((DUREE-simT)/1000));
+    if(simT>=18000&&!rafaleFaite){rafaleFaite=true;rafale=Math.round(6000/PAS);allumer();allumer();}
     if(perdues>4){arreter();dessiner();J.terminer(false,'Le feu est trop fort : le quartier brûle. Heureusement, les habitants sont sains et saufs.');return;}
-    if(temps<=0){arreter();dessiner();J.terminer(true,'Le vent tombe enfin. Grâce à la chaîne des seaux, une partie de la rue est sauvée ('+perdues+' maison'+(perdues>1?'s':'')+' perdue'+(perdues>1?'s':'')+').');return;}
+    if(simT>=DUREE){arreter();dessiner();J.terminer(true,'Le vent tombe enfin. Grâce à la chaîne des seaux, une partie de la rue est sauvée ('+perdues+' maison'+(perdues>1?'s':'')+' perdue'+(perdues>1?'s':'')+').');return;}
     dessiner();}
   function arreter(){fini=true;timers.forEach(function(t){clearInterval(t);clearTimeout(t);});}
   nettoyages.push(arreter);
-  allumer();dessiner();timers.push(setTimeout(function(){allumer();dessiner();},900));timers.push(setInterval(tic,PAS));
+  /* Horloge du jeu : le temps de jeu n'avance que lorsque la page est visible, par petits pas.
+     Si le navigateur ralentit ou suspend les minuteurs (onglet caché, page intégrée), le jeu se met en pause
+     au lieu de se bloquer, et repart au prochain toucher ou au retour sur la page. */
+  function avancer(){
+    if(fini)return;var t=maintenant(),dt=Math.min(t-dernier,1000);dernier=t;
+    if(document.hidden)return;
+    simT+=dt;acc+=dt;
+    if(!allumage2&&simT>=900){allumage2=true;allumer();}
+    var n=0;while(acc>=PAS&&n<3&&!fini){acc-=PAS;n++;try{tic();}catch(e){}}
+    if(acc>PAS)acc=PAS;
+    if(!fini){var c=document.getElementById('chrono');var tt=Math.max(0,Math.ceil((DUREE-simT)/1000));if(c&&tt!==temps){temps=tt;c.textContent=temps+' s'+(rafale>0?' · rafale de vent !':'');}}
+  }
+  function retour(){dernier=maintenant();}
+  document.addEventListener('visibilitychange',retour);window.addEventListener('focus',retour);
+  nettoyages.push(function(){document.removeEventListener('visibilitychange',retour);window.removeEventListener('focus',retour);});
+  allumer();dessiner();timers.push(setInterval(avancer,100));
 };
 
 JEUX.alpes=function(el,fin){
@@ -1493,7 +1511,7 @@ function vitrailBilan(place){
   var cx=x0+w/2,cy=y0+r*.62,nb=Object.keys(place).length;
   for(var i=0;i<16;i++){var a=i*Math.PI/8,a2=a+Math.PI/16;s+='<path d="M'+cx+' '+cy+'L'+(cx+Math.cos(a)*170).toFixed(1)+' '+(cy+Math.sin(a)*170).toFixed(1)+'L'+(cx+Math.cos(a2)*170).toFixed(1)+' '+(cy+Math.sin(a2)*170).toFixed(1)+'Z" fill="'+(i%2?(nb?'#e2bf62':'#efe8d6'):(nb?'#8fb0d6':'#e9e1cc'))+'" stroke="#1c1915" stroke-width="2"/>';}
   s+='<circle cx="'+cx+'" cy="'+cy+'" r="44" fill="#efe6d2" stroke="#1c1915" stroke-width="4"/>';
-  s+='<text x="'+cx+'" y="'+(cy+7)+'" text-anchor="middle" font-size="19" fill="#1c1915" font-family="\'UnifrakturMaguntia\',Georgia,serif">MDXXIV</text>';
+  s+='<text x="'+cx+'" y="'+(cy+7)+'" text-anchor="middle" font-size="19" fill="#1c1915" font-family="\'EB Garamond\',Georgia,serif" font-weight="600">1524</text>';
   var cells={monde:[x0,y0+r],eglise:[x0+w/2,y0+r],livre:[x0,y0+r+160],art:[x0+w/2,y0+r+160]},gris={monde:'grisMonde',eglise:'grisEglise',livre:'grisLivre',art:'grisArt'};
   PANNEAUX.forEach(function(P){var c=cells[P.id],pieces=SCENES_VITRAIL[P.id],items=Object.keys(place).filter(function(k){return place[k].p===P.id;});
     s+='<g transform="translate('+c[0]+' '+c[1]+')">';
@@ -1577,7 +1595,8 @@ var SC={
  entre:function(){note('papier','Le papier fabriqué autour de Troyes part vers les imprimeries de Paris et de Lyon.');objet('Médaille de saint Christophe');},
  txt:["Depuis la mort de ton père, papetier, ta mère et ta sœur Margot tiennent une échoppe de papier près du canal. Les moulins de la Seine battent les vieux chiffons pour en faire une pâte, et la pâte devient papier.",
   D('margot',"Un marchand de Lyon en a encore acheté vingt rames hier. Il dit que les imprimeurs en mangent comme du pain !"),
-  D('mere',"Tiens, prends cette médaille de saint Christophe : il protège les voyageurs. Et rapporte-moi mon fils, pas seulement des dessins."),
+  D('mere',"Tiens, prends cette médaille de [[saint Christophe]]. La légende raconte qu'il a porté l'Enfant Jésus sur ses épaules pour lui faire traverser un fleuve en crue. Depuis, les voyageurs le prient pour arriver sains et saufs. Porte-la toujours sur toi."),
+  D('mere',"Et en échange, mon fils, je veux deux choses. D'abord que tu reviennes vivant. Ensuite, un cadeau rapporté de ces pays lointains : quelque chose que je puisse tenir dans mes mains, pas seulement des dessins dans ton carnet !"),
   D('margot',"Moi, rapporte-moi un livre. Un vrai, imprimé."),
   "Tu promets, la gorge serrée."],
  choix:[ch('Continuer ta visite','2')]},
@@ -1612,7 +1631,7 @@ var SC={
  encart:{t:'Franchir les Alpes au XVIe siècle',l:["Pour aller de France en Italie, marchands, pèlerins et armées passent par quelques cols, dont le Mont-Cenis.","Au sommet, un [[hospice]] tenu par des religieux accueille les voyageurs depuis le Moyen Âge.","Des montagnards, les [[marron|marrons]], guident les voyageurs, portent les bagages et font descendre les plus pressés sur des traîneaux, la « [[ramasse]] ». Le froid, les avalanches et les brigands rendent le voyage dangereux."]},
  choix:[ch('Arriver à Rome','10')]},
 '10':{n:10,acte:1,plan:'rome',doc:'heemskerck',mus:'rome',titre:'Rome, la ville du pape',
- entre:function(){annonce('Tu changes tes écus contre des [[ducats]] italiens.','bourse');},
+ entre:function(){annonce('Tu changes tes écus contre des [[ducats]] italiens.','bourse');if(S.vus['4']){objet('Chapelet de corail, pour ta mère');annonce('Près de Saint-Pierre, tu achètes pour ta mère le cadeau promis : un chapelet de corail.','info');}},
  txt:function(){var n=nbVus(['11','12','13','14']);var t=[];
   if(n===0){t.push("Rome, printemps 1520. À l'auberge des Français, tu partages ta table avec Tommaso, un jeune peintre qui travaille dans l'atelier du grand Raphaël. Il te promet de te montrer la ville.");
    t.push(D('vincidor',"Ici, tout le monde dessine les ruines antiques. Les Anciens nous apprennent à faire des corps qui ont l'air vivants."));}
@@ -1655,7 +1674,7 @@ var SC={
  entre:function(){note('theses','Luther, un moine augustin, a publié 95 thèses contre la vente des indulgences ; l\'imprimerie les répand partout.');},
  txt:["Dans le cloître des moines [[augustin|augustins]], tu rencontres frère Matthias, un moine venu de [[Saxe]] pour les affaires de son ordre. Il a l'air soucieux.",
   D('matthias',"Chez nous, à [[Wittenberg]], un frère de notre ordre, le docteur Martin Luther, a écrit 95 [[thèses]] contre la vente des indulgences. C'était il y a deux ans et demi, et toute l'Allemagne en parle."),
-  D('matthias',"Grâce aux imprimeurs, ses textes se vendent par milliers. On dit que le pape prépare une bulle pour le condamner.")],
+  D('matthias',"Grâce aux imprimeurs, ses textes se vendent par milliers. On dit que le pape prépare une [[bulle]] pour le condamner.")],
  jeu:{type:'predicateur',bouton:'Écouter frère Matthias raconter la dispute',gagne:function(){rep(1,'Frère Matthias t\'écrit une lettre de recommandation pour Nuremberg.');objet('Lettre de frère Matthias');}},
  apres:function(){return [D('matthias',"Luther ne veut pas quitter l'Église : il veut la réformer. Mais je crains que la dispute ne coupe la chrétienté en deux."),
   S.jeux['14']==='g'?"Avant de te quitter, il te donne une lettre pour un imprimeur de Nuremberg, ami de maître Dürer.":"Il te bénit et retourne à ses prières."];},
@@ -1744,7 +1763,7 @@ var SC={
   "Les marchands allemands racontent la suite. À la [[diète]] de Worms, devant l'empereur et les princes, Luther a refusé de renier ses écrits. Puis il a disparu sur la route du retour. Enlevé ? Tué ?",
   S.f.durer?D('durer',"Ô Dieu, si Luther est mort, qui nous expliquera désormais l'Évangile si clairement ?"):"Dans l'auberge, tu entends Dürer se lamenter : si Luther est mort, qui expliquera l'Évangile si clairement ?",
   "Un marchand d'Augsbourg te glisse un petit livre imprimé : La Liberté du chrétien, de Luther. « Lis-le, ou brûle-le. Mais ne te fais pas prendre avec. »"];},
- encart:{t:'L\'Église se divise',l:["En 1520, le pape menace Luther d'[[excommunié|excommunication]] ; Luther brûle la bulle du pape en public.","En 1521, à la diète de Worms, il refuse de se rétracter. L'empereur [[Charles Quint]] le met au ban de l'[[Empire]] : n'importe qui peut l'arrêter.","Un prince allemand le cache dans son château. Ses idées continuent de se répandre, grâce à l'imprimerie."]},
+ encart:{t:'L\'Église se divise',l:["En 1520, le pape menace Luther d'[[excommunié|excommunication]] ; Luther brûle en public la [[bulle]] du pape, c'est-à-dire la lettre officielle qui le condamne.","En 1521, à la diète de Worms, il refuse de se rétracter. L'empereur [[Charles Quint]] le met au ban de l'[[Empire]] : n'importe qui peut l'arrêter.","Un prince allemand le cache dans son château. Ses idées continuent de se répandre, grâce à l'imprimerie."]},
  choix:[ch('Garder le livre de Luther','27',{fx:function(){objet('Livre de Luther');S.f.livre=true;}}),ch('Jeter le livre dans le feu','27',{fx:function(){S.f.livre=false;}})]},
 '27':{n:27,acte:2,img:'route',mus:'route',titre:'Le Rhin',
  txt:function(){return [S.f.durer?"En juillet 1521, Dürer et Agnes repartent pour Nuremberg. Le maître regarde longuement tes carnets : « Tu as appris à voir. Maintenant, apprends à graver. »":"L'été venu, ton convoi repart vers le sud. Tu quittes Anvers avec un carnet bien rempli.",
@@ -1802,7 +1821,9 @@ var SC={
   "On sonne le tocsin. Les habitants font la chaîne, des seaux de la Seine jusqu'aux toits. Tu laisses tomber ton sac et tu cours aider."],
  jeu:{type:'incendie',bouton:'Combattre le feu avec la chaîne des seaux',gagne:function(){rep(1,'Les voisins ont vu ton courage.');}},
  apres:function(){return [S.jeux['40']==='g'?"Au matin, le feu est éteint. Ta rue a été en partie sauvée, grâce aux seaux.":"Au matin, le feu s'est éteint de lui-même. Des rues entières ne sont plus que cendres.",
-  "Ta mère et Margot sont saines et sauves. L'échoppe a brûlé, mais vous avez sauvé une partie du papier. Et ton carnet de croquis, tu l'as gardé contre toi toute la nuit."];},
+  "Ta mère et Margot sont saines et sauves. L'échoppe a brûlé, mais vous avez sauvé une partie du papier. Et ton carnet de croquis, tu l'as gardé contre toi toute la nuit.",
+  ].concat(a('Chapelet de corail, pour ta mère')?["Tu tends à ta mère le cadeau promis : un chapelet de corail acheté à Rome, près de Saint-Pierre. Elle le serre dans ses mains noircies de suie.",
+  D('mere',"Tu es revenu vivant, avec la médaille de saint Christophe. C'est le plus beau des cadeaux. Mais je garde aussi le chapelet !")]:[]);},
  encart:{t:'Le grand incendie de 1524',l:["En mai 1524, un incendie ravage un quart de la ville de Troyes.","Environ 1 500 maisons sont détruites et 7 500 personnes se retrouvent sans abri.","La ville est rebâtie dans les années suivantes : beaucoup des maisons à pans de bois que l'on voit aujourd'hui datent de cette reconstruction."]},
  choix:[ch('Le lendemain','41')]},
 '41':{n:41,acte:4,img:'troyes',mus:'troyes',titre:'Les rumeurs',
@@ -1886,7 +1907,7 @@ function construireChoix(c,liste){
     b.disabled=!dispo;
     b.addEventListener('click',function(){if(o.action){o.action();return;}recents=[];annonces=[];if(o.fx)o.fx();aller(o.go,true);});c.appendChild(b);});
 }
-function lettrine(c){return '<svg class="lettrine" viewBox="0 0 80 80" aria-hidden="true"><rect x="2" y="2" width="76" height="76" fill="#1c1915"/><rect x="7" y="7" width="66" height="66" fill="none" stroke="#efe6d2" stroke-width="1"/><path d="M10 70q8-20 2-34q12 6 14-8M70 10q-10 10-2 22q-14-4-16 10M12 14q10 2 12 12M68 66q-10-2-12-12" fill="none" stroke="#efe6d2" stroke-width="1.6"/><circle cx="12" cy="36" r="2.5" fill="#efe6d2"/><circle cx="68" cy="32" r="2.5" fill="#efe6d2"/><text x="40" y="58" text-anchor="middle" font-family="\'UnifrakturMaguntia\',Georgia,serif" font-size="48" fill="#efe6d2">'+c.toUpperCase()+'</text></svg>';}
+function lettrine(c){return '<svg class="lettrine" viewBox="0 0 80 80" aria-hidden="true"><rect x="2" y="2" width="76" height="76" fill="#1c1915"/><rect x="7" y="7" width="66" height="66" fill="none" stroke="#efe6d2" stroke-width="1"/><path d="M10 70q8-20 2-34q12 6 14-8M70 10q-10 10-2 22q-14-4-16 10M12 14q10 2 12 12M68 66q-10-2-12-12" fill="none" stroke="#efe6d2" stroke-width="1.6"/><circle cx="12" cy="36" r="2.5" fill="#efe6d2"/><circle cx="68" cy="32" r="2.5" fill="#efe6d2"/><text x="40" y="58" text-anchor="middle" font-family="\'EB Garamond\',Georgia,serif" font-weight="600" font-size="48" fill="#efe6d2">'+c.toUpperCase()+'</text></svg>';}
 function bloc(item,premier){
   if(typeof item==='object'&&item)return dialogue(item.q,item.d);
   if(premier&&!document.body.classList.contains('lecture')&&/^[A-Za-zÀ-ÿ]/.test(item)){
@@ -2142,5 +2163,3 @@ rendre();
 
 }catch(err){erreurVisible((err&&err.stack)||err);}})();
 </script>
-
-</body></html>
