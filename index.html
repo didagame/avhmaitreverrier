@@ -335,6 +335,8 @@ button:focus-visible,.lieu-plan:focus-visible,a:focus-visible{outline:2px solid 
 .a-entre-d{animation:entred 2.6s cubic-bezier(.2,.7,.3,1) both}
 @keyframes entred{from{transform:translateX(520px)}to{transform:none}}
 .a-pas-court{animation:pasm .5s ease-in-out 5}
+.a-roue{animation:roue 1.6s linear infinite;transform-box:fill-box;transform-origin:center}
+@keyframes roue{to{transform:rotate(360deg)}}
 /* Mode lecture */
 body.lecture{--f-texte:'Atkinson Hyperlegible',Verdana,Tahoma,Arial,sans-serif;--f-titre:'Atkinson Hyperlegible',Verdana,Tahoma,Arial,sans-serif;--taille:clamp(16px,2.7vh,21px);line-height:1.7;letter-spacing:.03em;word-spacing:.12em}
 body.lecture .papier{background-image:none;background-color:#f7f1e3}
@@ -909,47 +911,74 @@ carte:function(){return '<div class="boite-grav">'+carteVoyage(true)+'</div>';}
 };
 var LEG={couverture:'Troyes, au printemps 1519',atelier:'L\'atelier de maître Nicolas',troyes:'La cathédrale de Troyes et sa façade inachevée',echoppe:'L\'échoppe de papier',marche:'Le marché et le colporteur',parvis:'Le pardon devant l\'église',route:'Le passage des Alpes',rome:'Le chantier de Saint-Pierre',sixtine:'La chapelle Sixtine',pantheon:'Les funérailles de Raphaël',cloitre:'Le cloître des augustins',nuremberg:'Nuremberg, chez Dürer',bruxelles:'L\'hôtel de ville de Bruxelles',nassau:'L\'hôtel de Nassau',anvers:'Le port d\'Anvers',erasme:'Érasme à sa table',crieur:'Le crieur d\'Anvers',bale:'Bâle et le Rhin',imprimerie:'L\'atelier de dame Ursula',magellan:'La feuille du Victoria',sermon:'Le sermon contre les images',incendie:'L\'incendie de Troyes',reconstruction:'Troyes se rebâtit',verriere:'La verrière de Jehan',carte:'La route de Jehan'};
 
-/* ============ VIE DANS LES GRAVURES : nuages, passants, cavaliers, animaux, personnages qui entrent ============ */
-function chevalG(s,robe,coiffe){s=s||1;var c=LAV.brun;
-  var corps='M-34 -32q0-12 14-14h36q16 2 16 14v8q0 6-6 6h-54q-6 0-6-6z';
-  var tete='M26 -42l12-20q6-6 12 0l4 10l-8 4l-6-2l-8 14z';
-  var str=P('M-30 -20l-6 20M-20 -18l-2 18M18 -18l4 18M28 -20l6 20','none',2.4)+P(corps,c,1.4)+'<path d="'+corps+'" fill="url(#g-dg)" opacity=".4"/>'+P(tete,c,1.4)+P('M-34 -34q-14 4-12 22','none',2.2)+P('M34 -54l6 -6','none',1.2);
-  str+=fig(4,-34,46,robe||LAV.rouge,coiffe||'chapeau');
-  return '<g transform="scale('+s+')">'+str+'</g>';}
-function chienG(s){s=s||1;return '<g transform="scale('+s+')">'+P('M-12 -12q0-6 6-6h16q4 0 6-4l4-4l3 4l4 2l-3 4l-5 2v8q0 4-4 4h-23q-4 0-4-4z',LAV.ocre,1.2)+P('M-10 -4l-2 6M-4 -4v6M8 -4v6M13 -4l2 6','none',1.6)+P('M-12 -12q-8-2-10-8','none',1.4)+'</g>';}
-var NBANIM=0;
-function nuagesA(liste){return liste.map(function(n){return '<g transform="translate(-160 0)"><g class="a-nuage" style="animation-duration:'+n[2]+'s;animation-delay:-'+(n[2]*(.15+(n[3]%60)/100)).toFixed(1)+'s">'+nuage(0,n[0],n[1]*1.4)+'</g></g>';}).join('');}
-function traverse(contenu,b,dur,del,versGauche){
-  return '<g transform="translate('+(versGauche?800:-160)+' '+b+')"><g class="'+(versGauche?'a-traverse-g':'a-traverse')+'" style="animation-duration:'+dur+'s;animation-delay:-'+del+'s">'+contenu+'</g></g>';}
-function cavalierA(b,s,dur,del,versGauche,robe,coiffe){return traverse('<g'+(versGauche?' transform="scale(-1 1)"':'')+'><g class="a-galop">'+chevalG(s,robe,coiffe)+'</g></g>',b,dur,del,versGauche);}
-function passantA(b,h,robe,coiffe,dur,del,versGauche,extra){return traverse('<g class="a-pas">'+fig(0,0,h,robe,coiffe)+(extra||'')+'</g>',b,dur,del,versGauche);}
-function chienA(b,s,dur,del,versGauche){return traverse('<g'+(versGauche?' transform="scale(-1 1)"':'')+'><g class="a-trot">'+chienG(s)+'</g></g>',b,dur,del,versGauche);}
-function bateauA(y,s,dur,del,versGauche){return traverse('<g'+(versGauche?' transform="scale(-1 1)"':'')+'>'+navire(0,0,s)+'</g>',y,dur,del,versGauche);}
+/* ============ VIE DANS LES GRAVURES : nuages, passants, montures, voitures, animaux — différents d'une image à l'autre ============ */
+var ROBES={bai:LAV.brun,gris:LAV.gris,blanc:'#f6efdf',noir:'#3a3129',alezan:'#c08a5a'};
+function corpsCheval(robe,o){o=o||{};var c=ROBES[robe]||robe||LAV.brun,s='';
+  var corps='M-34 -32q0-12 14-14h36q16 2 16 14v8q0 6-6 6h-54q-6 0-6-6z',tete=o.tete||'M26 -42l12-20q6-6 12 0l4 10l-8 4l-6-2l-8 14z';
+  s+=P('M-30 -20l-'+(o.pas?3:6)+' 20M-20 -18l'+(o.pas?2:-2)+' 18M18 -18l'+(o.pas?-2:4)+' 18M28 -20l'+(o.pas?3:6)+' 20','none',2.4)+P(corps,c,1.4)+'<path d="'+corps+'" fill="url(#g-dg)" opacity="'+(robe==='noir'?.15:.4)+'"/>'+P(tete,c,1.4)+P('M-34 -34q-14 4-12 22','none',o.queue||2.2);
+  if(o.criniere)s+=P('M30 -46q4-8 10-14','none',3,' stroke="'+(robe==='blanc'?'#b8b1a3':'#1c1915')+'"');
+  if(o.caparacon)s+=P('M-36 -30h62v14h-62z',o.caparacon,1.2)+P('M-36 -22h62','none',.8);
+  return s;}
+function monture(o){var s=corpsCheval(o.robe,o);
+  if(o.bat)s+=P('M-24 -60h30v16h-30z',LAV.pierre,1.2)+P('M-20 -54h22','none',.8)+P('M-28 -48l6 -14M10 -48l-4 -14','none',1);
+  if(o.oreilles)s+=P('M40 -62l-2-12M44 -60l2-12','none',1.6);
+  if(o.cav)s+=fig(4,-34,o.cav[2]||46,o.cav[0],o.cav[1])+(o.lance?P('M-4 -70L44 -96','none',1.8)+P('M44 -96l-6 8','none',1.6):'')+(o.fanion?P('M-6 -60V-104','none',1.6)+'<path class="a-fanion" d="M-6 -104l22 5l-22 6z" fill="'+o.fanion+'" stroke="#1c1915"/>':'');
+  return '<g transform="scale('+(o.s||1)+')">'+s+'</g>';}
+function roue(x,y,r){var s='<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="none" stroke="#1c1915" stroke-width="2.2"/>';for(var i=0;i<4;i++){var a=i*Math.PI/4;s+='<line x1="'+(x-Math.cos(a)*r).toFixed(1)+'" y1="'+(y-Math.sin(a)*r).toFixed(1)+'" x2="'+(x+Math.cos(a)*r).toFixed(1)+'" y2="'+(y+Math.sin(a)*r).toFixed(1)+'" stroke="#1c1915" stroke-width="1.1"/>';}
+  return '<g class="a-roue">'+s+'<circle cx="'+x+'" cy="'+y+'" r="2.4" fill="#1c1915"/></g>';}
+function chariot(o){o=o||{};var s='';
+  s+='<g transform="translate(78 0)"><g class="a-pas">'+corpsCheval(o.robe||'bai',{pas:1})+'</g></g>'+P('M28 -30h28','none',2);
+  if(o.charge==='foin')s+=P('M-44 -36q4-30 36-30q32 0 36 30z',LAV.ocre,1.2)+P('M-34 -42q20-8 50 0M-30 -52q18-6 40 0','none',.8);
+  if(o.charge==='pierres')s+=[[-40,-46],[-20,-46],[0,-46],[-30,-58],[-10,-58]].map(function(p){return P(R(p[0],p[1],18,12),LAV.pierre,1.1);}).join('');
+  if(o.charge==='bache')s+=P('M-44 -36q0-40 36-40q36 0 36 40z','#f6efdf',1.3)+P('M-30 -36q0-30 22-34M-6 -36v-38M16 -36q0-30-22-34','none',.8);
+  if(o.charge==='tonneaux')s+=[-36,-14,8].map(function(x){return P('M'+x+' -36v-20q10-4 20 0v20q-10 4-20 0z',LAV.brun,1.1)+P('M'+x+' -46h20','none',.8);}).join('');
+  s+=P('M-46 -36h72v10h-72z',LAV.brun,1.3)+roue(-28,-14,14)+roue(14,-14,14);
+  if(o.cocher)s+=fig(22,-36,34,o.cocher[0],o.cocher[1]);
+  return '<g transform="scale('+(o.s||1)+')">'+s+'</g>';}
+function carrosse(o){o=o||{};var s='',c=o.couleur||LAV.rouge;
+  s+='<g transform="translate(96 0)"><g class="a-pas">'+corpsCheval(o.robe||'noir',{pas:1,criniere:1})+'</g></g>';
+  s+='<g transform="translate(70 4) scale(.95)" opacity=".85"><g class="a-pas" style="animation-delay:-.25s">'+corpsCheval(o.robe2||o.robe||'noir',{pas:1})+'</g></g>'+P('M36 -30h40','none',2);
+  s+=P('M-50 -30v-34q30-20 64 0v34z',c,1.5)+'<path d="M-50 -30v-34q30-20 64 0v34z" fill="url(#g-dg)" opacity=".3"/>'+P(R(-40,-58,18,16),'#f6efdf',1)+P(R(-14,-58,18,16),'#f6efdf',1)+P('M-54 -66q34-22 72 0','none',2.4)+P('M-17 -82v-6','none',1.4)+'<circle cx="-17" cy="-90" r="3" fill="'+LAV.or+'" stroke="#1c1915"/>';
+  s+=P('M-54 -30h80v6h-80z',LAV.brun,1.2)+roue(-36,-16,16)+roue(12,-14,13)+fig(24,-38,30,o.cocher||LAV.nuit,'chapeau');
+  return '<g transform="scale('+(o.s||1)+')">'+s+'</g>';}
+var CHIENS={
+ levrier:{d:'M-18 -20q0-6 8-6h18q6 0 8-6l6-4l4 4l2 6l-8 2l-4 4v6q0 4-4 4h-26q-4 0-4-4z',c:LAV.gris,pattes:'M-14 -12l-4 12M-8 -12l2 12M10 -12l-2 12M16 -12l4 12',queue:'M-18 -20q-10 6-14 18'},
+ berger:{d:'M-16 -10q-2-14 10-14h18q4-2 8-8l8 2l2 8l-6 4v8q0 6-6 6h-28q-6 0-6-6z',c:LAV.brun,pattes:'M-12 -2l-2 8M-4 -2v8M10 -2v8M16 -2l2 8',queue:'M-16 -14q-10-6-8-14'},
+ petit:{d:'M-10 -8q0-6 6-6h12q3 0 5-4l3-2l2 3l3 2l-3 3l-3 1v5q0 3-3 3h-16q-3 0-3-3z',c:'#f6efdf',pattes:'M-8 -2l-1 6M-3 -2v6M7 -2v6M11 -2l1 6',queue:'M-10 -8q-6-4-4-10',taches:1},
+ chat:{d:'M-10 -8q0-8 8-8h10q2-6 4-8l3 4l3-4l1 8q0 6-4 6v6q0 2-3 2h-18q-4 0-4-2z',c:'#3a3129',pattes:'M-8 -2v6M-2 -2v6M6 -2v6M11 -2v6',queue:'M-10 -8q-10-6-6-18'}};
+function chien(type,s){var C=CHIENS[type]||CHIENS.berger;return '<g transform="scale('+(s||1)+')">'+P(C.pattes,'none',1.8)+P(C.d,C.c,1.2)+P(C.queue,'none',1.6)+(C.taches?'<circle cx="0" cy="-10" r="2.4" fill="#1c1915"/><circle cx="-6" cy="-9" r="1.6" fill="#1c1915"/>':'')+'</g>';}
+function cochon(s){return '<g transform="scale('+(s||1)+')">'+P('M-12 -2v6M-4 -2v6M6 -2v6M12 -2v6','none',2)+P('M-16 -10q0-12 14-12h12q10 0 12 8l4 2v6l-4 2q-2 6-10 6h-20q-8 0-8-12z','#e2b0a4',1.2)+P('M-16 -12q-6-2-4 4','none',1.2)+'<circle cx="16" cy="-14" r="1.4" fill="#1c1915"/></g>';}
+function oies(s){var o='';[0,22,40].forEach(function(x,i){o+='<g transform="translate('+(-x)+' '+(i%2?2:0)+')">'+P('M-8 -4q0-8 10-8h4l6-10q2-4 6-2l3 2l-4 2l-5 12q0 6-8 6h-8q-4 0-4-2z','#f6efdf',1.1)+P('M-2 -2v4M4 -2v4','none',1.4,' stroke="#c08a33"')+'</g>';});return '<g transform="scale('+(s||1)+')">'+o+'</g>';}
+function nuagesA(liste){return liste.map(function(n){return '<g transform="translate(-160 0)"><g class="a-nuage" style="animation-duration:'+n[2]+'s;animation-delay:-'+(n[2]*(.15+(n[3]%60)/100)).toFixed(1)+'s">'+nuage(0,n[0],n[1]*1.4)+(n[4]?nuage(30,n[0]+10,n[1]):'')+'</g></g>';}).join('');}
+function traverse(contenu,b,dur,del,versGauche,allure){
+  return '<g transform="translate('+(versGauche?800:-200)+' '+b+')"><g class="'+(versGauche?'a-traverse-g':'a-traverse')+'" style="animation-duration:'+dur+'s;animation-delay:-'+del+'s"><g'+(versGauche?' transform="scale(-1 1)"':'')+'><g class="'+(allure||'a-pas')+'">'+contenu+'</g></g></g></g>';}
+function passantA(b,h,robe,coiffe,dur,del,versGauche,extra){return traverse(fig(0,0,h,robe,coiffe)+(extra||''),b,dur,del,versGauche,'a-pas');}
 function entrantA(x,b,h,robe,coiffe,depuisDroite,retard){return '<g transform="translate('+x+' 0)"><g class="'+(depuisDroite?'a-entre-d':'a-entre-g')+'" style="animation-delay:'+(retard||.3)+'s"><g class="a-pas-court" style="animation-delay:'+(retard||.3)+'s">'+fig(0,b,h,robe,coiffe)+'</g></g></g>';}
+function bateauA(y,s,dur,del,versGauche){return traverse(navire(0,0,s),y,dur,del,versGauche,'a-rien');}
 var ANIM={
- couverture:{ciel:[[60,1.1,70,10],[40,.8,90,55]],avant:function(){return cavalierA(256,.62,16,4,true,LAV.nuit,'casque')+passantA(258,42,LAV.ocre,'coiffe',28,12,false);}},
- atelier:{avant:function(){return entrantA(430,326,92,LAV.ocre,'beret',true,.4);}},
- troyes:{ciel:[[50,1,60,5],[80,.7,80,40]],avant:function(){return passantA(270,52,LAV.nuit,'chaperon',24,3)+passantA(274,48,LAV.rose,'coiffe',30,17,true)+chienA(290,.9,11,6);}},
- echoppe:{avant:function(){return entrantA(560,326,96,LAV.ocre,'coiffe',true,.5);}},
- marche:{ciel:[[50,1,65,20]],avant:function(){return passantA(262,50,LAV.vert,'beret',22,6,true)+chienA(296,1,9,2)+entrantA(470,326,92,LAV.rouge,'coiffe',true,.6);}},
- parvis:{ciel:[[44,.9,70,30]],avant:function(){return passantA(262,46,LAV.brun,'capuche',26,9)+entrantA(560,326,90,LAV.gris,'chapeau',true,.6);}},
- route:{ciel:[[70,1,80,35],[40,.7,95,70]],avant:function(){return cavalierA(262,.5,18,6,true,LAV.gris,'casque');}},
- rome:{ciel:[[50,1,70,15],[30,.7,90,60]],avant:function(){return cavalierA(268,.55,15,3,false,LAV.rouge,'beret')+passantA(272,46,'#1c1915','capuche',30,20,true)+chienA(300,.9,10,4,true);}},
+ couverture:{ciel:[[60,1.1,80,10,1],[34,.7,110,55]],avant:function(){return traverse(carrosse({s:.5,couleur:LAV.nuit,robe:'noir'}),258,30,8,true,'a-rien')+passantA(260,40,LAV.ocre,'coiffe',36,22,false);}},
+ atelier:{avant:function(){return entrantA(430,326,92,LAV.ocre,'beret',true,.4)+traverse(chien('chat',.9),318,18,4,false,'a-pas');}},
+ troyes:{ciel:[[50,1,65,5],[86,.7,95,40,1]],avant:function(){return traverse(chariot({s:.58,charge:'foin',robe:'alezan',cocher:[LAV.vert,'chapeau']}),272,24,6,false,'a-rien')+traverse(chien('levrier',.95),294,6.5,2,true,'a-galop')+passantA(268,46,LAV.rose,'coiffe',32,17,true);}},
+ echoppe:{avant:function(){return entrantA(560,326,96,LAV.ocre,'coiffe',true,.5)+traverse(chien('chat',.8),300,22,9,true,'a-pas');}},
+ marche:{ciel:[[50,1,70,20,1]],avant:function(){return traverse(monture({s:.6,robe:'gris',oreilles:1,bat:1,tete:'M26 -38l10-16q4-4 8 0l3 8l-6 3l-5-2l-6 12z'}),270,27,12,true,'a-pas')+passantA(272,48,LAV.brun,'chapeau',27,10.6,true)+traverse(chien('petit',1),298,9,3,false,'a-trot')+entrantA(470,326,92,LAV.rouge,'coiffe',true,.6);}},
+ parvis:{ciel:[[44,.9,80,30]],avant:function(){return traverse(cochon(.9),292,14,5,false,'a-trot')+passantA(262,46,LAV.brun,'capuche',30,9,true)+entrantA(560,326,90,LAV.gris,'chapeau',true,.6);}},
+ route:{ciel:[[70,1,60,35,1],[40,.7,85,70]],avant:function(){return traverse(monture({s:.5,robe:'blanc',cav:[LAV.gris,'casque'],lance:1,criniere:1}),262,10,4,true,'a-galop')+traverse(monture({s:.42,robe:'bai',oreilles:1,bat:1,pas:1}),268,30,12,false,'a-pas')+passantA(270,40,LAV.brun,'chapeau',30,10.3,false);}},
+ rome:{ciel:[[50,1,70,15],[30,.7,95,60,1]],avant:function(){return traverse(carrosse({s:.55,couleur:LAV.rouge,robe:'blanc',robe2:'gris',cocher:LAV.rouge}),270,34,10,false,'a-rien')+traverse(chien('berger',.95),298,11,4,true,'a-trot')+passantA(268,44,'#1c1915','capuche',38,26,true);}},
  sixtine:{avant:function(){return entrantA(220,330,84,LAV.vert,'beret',false,.4);}},
- pantheon:{ciel:[[90,.9,75,25]],avant:function(){return entrantA(560,326,80,'#1c1915','capuche',true,.5);}},
- cloitre:{avant:function(){return passantA(256,48,'#1c1915','capuche',30,8,true)+entrantA(520,326,96,'#1c1915','capuche',true,.6);}},
- nuremberg:{ciel:[[40,1,70,12]],avant:function(){return cavalierA(268,.55,15,7,true,LAV.vert,'chapeau')+chienA(296,.9,10,1);}},
- bruxelles:{ciel:[[50,1,65,8],[30,.6,90,50]],avant:function(){return passantA(262,48,LAV.rouge,'chaperon',24,4)+passantA(266,44,LAV.nuit,'coiffe',28,16,true)+entrantA(560,326,96,LAV.ocre,'chapeau',true,.5);}},
- nassau:{avant:function(){return entrantA(90,326,96,LAV.nuit,'chaperon',false,.4);}},
- anvers:{ciel:[[110,1,75,30]],avant:function(){return bateauA(284,.35,45,10,true)+passantA(248,40,LAV.brun,'',22,5,false,P('M-6 -40h16v-8h-16z',LAV.pierre,1));}},
- erasme:{avant:function(){return chienA(316,1,14,3);}},
- crieur:{ciel:[[44,.9,70,40]],avant:function(){return cavalierA(262,.55,14,2,false,LAV.nuit,'casque')+entrantA(80,326,92,LAV.brun,'chapeau',false,.5);}},
- bale:{ciel:[[50,1,70,22],[90,.7,90,5]],avant:function(){return bateauA(268,.3,50,20,false)+cavalierA(234,.4,16,9,true,LAV.rouge,'chapeau');}},
- imprimerie:{avant:function(){return entrantA(590,330,92,LAV.ocre,'beret',true,.5);}},
- magellan:{ciel:[[40,.9,70,10]],avant:function(){return passantA(262,46,LAV.vert,'chapeau',22,3);}},
+ pantheon:{ciel:[[90,.9,75,25,1]],avant:function(){return entrantA(560,326,80,'#1c1915','capuche',true,.5);}},
+ cloitre:{avant:function(){return passantA(256,48,'#1c1915','capuche',34,8,true)+traverse(chien('chat',.9),300,26,14,false,'a-pas')+entrantA(520,326,96,'#1c1915','capuche',true,.6);}},
+ nuremberg:{ciel:[[40,1,75,12,1]],avant:function(){return traverse(chariot({s:.56,charge:'bache',robe:'bai',cocher:[LAV.nuit,'chapeau']}),270,28,9,true,'a-rien')+traverse(monture({s:.5,robe:'noir',cav:[LAV.rouge,'beret'],criniere:1}),262,8.5,2,false,'a-galop');}},
+ bruxelles:{ciel:[[50,1,65,8],[30,.6,100,50,1]],avant:function(){return traverse(monture({s:.55,robe:'blanc',cav:[LAV.nuit,'casque'],fanion:LAV.or,caparacon:LAV.nuit,pas:1}),266,26,6,false,'a-pas')+traverse(oies(.8)+fig(18,0,40,LAV.rose,'coiffe'),292,30,20,true,'a-pas')+entrantA(560,326,96,LAV.ocre,'chapeau',true,.5);}},
+ nassau:{avant:function(){return entrantA(90,326,96,LAV.nuit,'chaperon',false,.4)+traverse(chien('petit',.9),318,16,7,true,'a-trot');}},
+ anvers:{ciel:[[110,1,75,30,1]],avant:function(){return bateauA(284,.35,45,10,true)+bateauA(300,.22,70,40,false)+passantA(248,40,LAV.brun,'',22,5,false,P('M-6 -40h16v-8h-16z',LAV.pierre,1));}},
+ erasme:{avant:function(){return traverse(chien('chat',1),316,20,3,true,'a-pas');}},
+ crieur:{ciel:[[44,.9,70,40]],avant:function(){return traverse(monture({s:.55,robe:'gris',cav:[LAV.nuit,'casque'],fanion:LAV.rouge}),262,9,2,true,'a-galop')+traverse(chien('berger',.8),296,13,8,false,'a-trot')+entrantA(80,326,92,LAV.brun,'chapeau',false,.5);}},
+ bale:{ciel:[[50,1,70,22],[90,.7,90,5,1]],avant:function(){return bateauA(268,.3,50,20,false)+traverse(chariot({s:.38,charge:'tonneaux',robe:'gris',cocher:[LAV.brun,'beret']}),234,22,9,true,'a-rien');}},
+ imprimerie:{avant:function(){return entrantA(590,330,92,LAV.ocre,'beret',true,.5)+traverse(chien('chat',.8),318,24,10,false,'a-pas');}},
+ magellan:{ciel:[[40,.9,70,10,1]],avant:function(){return traverse(oies(.85)+fig(20,0,42,LAV.vert,'coiffe'),270,30,6,false,'a-pas')+traverse(monture({s:.45,robe:'alezan',cav:[LAV.ocre,'chapeau']}),262,12,4,true,'a-galop');}},
  sermon:{avant:function(){return entrantA(580,326,92,LAV.gris,'chaperon',true,.6);}},
- incendie:{avant:function(){return passantA(270,52,LAV.rose,'coiffe',7,1,true)+passantA(274,50,LAV.nuit,'beret',6,4)+chienA(296,1,5,2,true);}},
- reconstruction:{ciel:[[50,1,70,30]],avant:function(){return passantA(266,50,LAV.brun,'',20,4,false,P('M-30 -46h60','none',3))+chienA(298,.9,11,7,true);}}
+ incendie:{avant:function(){return passantA(270,52,LAV.rose,'coiffe',7,1,true)+passantA(274,50,LAV.nuit,'beret',6,4)+traverse(corpsCheval('gris',{criniere:1}),284,5,2,true,'a-galop')+traverse(chien('petit',1),300,4.5,1,false,'a-galop');}},
+ reconstruction:{ciel:[[50,1,70,30,1]],avant:function(){return traverse(chariot({s:.55,charge:'pierres',robe:'bai',cocher:[LAV.brun,'']}),268,26,4,false,'a-rien')+passantA(266,50,LAV.brun,'',22,14,true,P('M-30 -46h60','none',3))+traverse(cochon(.8),296,16,7,true,'a-trot');}}
 };
 Object.keys(ANIM).forEach(function(k){var orig=MINI[k],A=ANIM[k];if(!orig)return;
   MINI[k]=function(){var s=orig.apply(this,arguments);
@@ -1304,22 +1333,82 @@ JEUX.colporteur=function(el,fin){trier(el,fin,{titre:'Le colporteur',consigne:'L
   ko:'Le colporteur sourit : « Regarde mieux l\'épaisseur des traits. »',gagne:'Le colporteur est étonné : « Tu as l\'œil ! Je te fais un prix. »',perdu:'Le colporteur hausse les épaules : « Ça s\'apprend. »',tolere:1});};
 
 JEUX.fuite=function(el,fin){
-  var J=monterJeu(el,'Le point de fuite','Tommaso t\'apprend le secret des peintres italiens : dans un dessin en [[perspective]], les lignes du sol et des murs se rejoignent en un seul point. Touche le [[point de fuite]] de chaque dessin.',fin);
-  var tours=[{p:[320,120],c:[[160,90],[320,138],[470,60],[320,250],[560,170]]},{p:[430,140],c:[[200,120],[430,158],[300,60],[560,240],[120,200]]}],t=0,err=0;
-  function dessin(T){var px=T.p[0],py=T.p[1],s='<svg class="planche" viewBox="0 0 640 300" role="img" aria-label="Dessin en perspective">';
-    s+='<rect width="640" height="300" fill="#f6efdf"/>';
+  var J=monterJeu(el,'Le point de fuite','Tommaso t\'apprend le secret des peintres italiens : dans un dessin en [[perspective]], les lignes qui s\'enfoncent dans le tableau se rejoignent toutes en un seul point, le [[point de fuite]]. Trois dessins, de plus en plus difficiles.',fin);
+  var t=0,err=0,ratesTour=0,NS='http://www.w3.org/2000/svg';
+  function L(a,b,k){return [a[0]+(b[0]-a[0])*k,a[1]+(b[1]-a[1])*k];}
+  function pt(p){return p[0].toFixed(1)+' '+p[1].toFixed(1);}
+  function poly(ps,fill,sw){return '<path d="M'+ps.map(pt).join('L')+'Z" fill="'+(fill||'none')+'" stroke="#1c1915" stroke-width="'+(sw||1.2)+'"/>';}
+  function ligne(a,b,sw,extra){return '<line x1="'+a[0].toFixed(1)+'" y1="'+a[1].toFixed(1)+'" x2="'+b[0].toFixed(1)+'" y2="'+b[1].toFixed(1)+'" stroke="#1c1915" stroke-width="'+(sw||.9)+'"'+(extra||'')+'/>';}
+  function cibles(liste){return liste.map(function(c,i){return '<g class="cible" data-c="'+i+'" tabindex="0" role="button" aria-label="Point '+(i+1)+'"><circle class="rond" cx="'+c[0]+'" cy="'+c[1]+'" r="14" fill="rgba(246,239,223,.8)" stroke="#a63a24" stroke-width="2.4"/><text x="'+c[0]+'" y="'+(c[1]+5)+'" text-anchor="middle" font-size="13" font-weight="700" fill="#a63a24">'+(i+1)+'</text></g>';}).join('');}
+  function proposer(vp,n,ecart){var l=[vp.slice()],ang=Math.random()*6.28;for(var i=1;i<n;i++){var a=ang+i*6.28/(n-1)+Math.random()*.5,d=ecart*(.75+Math.random()*.6);l.push([Math.round(Math.max(30,Math.min(610,vp[0]+Math.cos(a)*d))),Math.round(Math.max(26,Math.min(274,vp[1]+Math.sin(a)*d*.7)))]);}
+    var m=melange(l.map(function(_,i){return i;}));return {pts:m.map(function(i){return l[i];}),bon:m.indexOf(0)};}
+  /* 1. Le couloir carrelé (point décentré, faux points proches) */
+  function couloir(T){var px=T.vp[0],py=T.vp[1],s='<rect width="640" height="300" fill="#f6efdf"/>';
     s+='<path d="M0 0L'+(px-26)+' '+(py-18)+'V'+(py+18)+'L0 300Z" fill="#ddd2bb" stroke="#1c1915" stroke-width="1.2"/><path d="M640 0L'+(px+26)+' '+(py-18)+'V'+(py+18)+'L640 300Z" fill="#ddd2bb" stroke="#1c1915" stroke-width="1.2"/>';
-    for(var i=0;i<=16;i++){var x=i*640/16;s+='<line x1="'+x+'" y1="300" x2="'+px+'" y2="'+(py+18)+'" stroke="#1c1915" stroke-width=".9"/>';}
-    [300,240,204,182,168].forEach(function(y){var k=(y-py-18)/(300-py-18);s+='<line x1="'+(px-px*k)+'" y1="'+y+'" x2="'+(px+(640-px)*k)+'" y2="'+y+'" stroke="#1c1915" stroke-width=".9"/>';});
-    [0.25,0.5,0.75].forEach(function(k){s+='<line x1="'+(px-26-(px-26)*k)+'" y1="'+((py-18)*(1-k))+'" x2="'+(px-26-(px-26)*k)+'" y2="'+((py+18)+(300-py-18)*k)+'" stroke="#1c1915" stroke-width="1.4"/><line x1="'+(px+26+(640-px-26)*k)+'" y1="'+((py-18)*(1-k))+'" x2="'+(px+26+(640-px-26)*k)+'" y2="'+((py+18)+(300-py-18)*k)+'" stroke="#1c1915" stroke-width="1.4"/>';});
+    for(var i=0;i<=16;i++){var x=i*640/16;s+=ligne([x,300],[px+(x-320)*26/320,py+18]);}
+    [300,240,204,182,168].forEach(function(y){var k=(y-py-18)/(300-py-18);if(k>0)s+=ligne([px-px*k,y],[px+(640-px)*k,y]);});
     s+='<rect x="'+(px-26)+'" y="'+(py-18)+'" width="52" height="36" fill="#f6efdf" stroke="#1c1915" stroke-width="1.2"/>';
-    T.c.forEach(function(c,i){s+='<g class="cible" data-c="'+i+'" tabindex="0" role="button" aria-label="Point '+(i+1)+'"><circle class="rond" cx="'+c[0]+'" cy="'+c[1]+'" r="15" fill="rgba(246,239,223,.75)" stroke="#a63a24" stroke-width="2.4"/><text x="'+c[0]+'" y="'+(c[1]+5)+'" text-anchor="middle" font-size="14" font-weight="700" fill="#a63a24">'+(i+1)+'</text></g>';});
-    return s+'</svg>';}
-  function dessiner(){J.corps.innerHTML='<p class="petit" style="text-align:center;margin:0 0 6px">Dessin '+(t+1)+' sur 2</p>'+dessin(tours[t]);
-    J.corps.querySelectorAll('.cible').forEach(function(g){function go(){var i=+g.getAttribute('data-c'),T=tours[t];
-      if(i===1){g.classList.add('trouve');J.dire('Oui : toutes les lignes fuient vers ce point.','ok');t++;setTimeout(function(){if(t<tours.length)dessiner();else J.terminer(err<=2,err<=2?'Tommaso applaudit : « Tu dessines déjà comme un Florentin ! »':'Tommaso sourit : « Tu as compris, mais il faudra t\'exercer. »');},calme()?300:1000);}
-      else{err++;g.classList.add('rate');J.secouer();J.dire('Non : suis les lignes du carrelage avec ton doigt jusqu\'à ce qu\'elles se rejoignent.','ko');}}
-      g.addEventListener('click',go);g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});});}
+    return s;}
+  /* 2. La rue : pas de carrelage, il faut prolonger les toits et les fenêtres */
+  function rue(T){var V=T.vp,s='<rect width="640" height="300" fill="#f6efdf"/><rect width="640" height="300" fill="url(#pf-hz)" opacity=".25"/>';
+    var A=[0,24],B=[0,300],C=[640,54],D=[640,300];
+    function fac(A,B,t1,col){var ps=[A,L(A,V,t1),L(B,V,t1),B];s+=poly(ps,col,1.4);
+      [[.06,.16],[.24,.34],[.42,.5],[.56,.63]].forEach(function(w){if(w[1]>t1)return;[[.18,.34],[.5,.66]].forEach(function(h){
+        function q(t,v){return L(L(A,V,t),L(B,V,t),v);}s+=poly([q(w[0],h[0]),q(w[1],h[0]),q(w[1],h[1]),q(w[0],h[1])],'#1c1915',.8);});});}
+    fac(A,B,.66,'#ddd2bb');fac(C,D,.6,'#e2d6bb');
+    s+=ligne([150,300],L([150,300],V,.7),1.2)+ligne([500,300],L([500,300],V,.7),1.2);
+    return s;}
+  /* 3. Les maisons de l'apprenti : laquelle est mal dessinée ? */
+  function maisons(T){var V=T.vp,s='<rect width="640" height="300" fill="#f6efdf"/>';
+    for(var i=0;i<=8;i++){var x=i*80;s+=ligne([x,300],L([x,300],V,.55),.6,' opacity=".5"');}
+    T.maisons.forEach(function(m,i){var x=m.x,w=m.w,h=m.h,b=m.b,gauche=x+w/2<V[0],cote=gauche?x+w:x,W=T.faux===i?[V[0]+(gauche?70:-70),V[1]+240]:V;
+      var haut=[cote,b-h],bas=[cote,b],faite=[x+w/2,b-h-m.toit],k=.28;
+      var g='<g class="cible maison-p" data-c="'+i+'" tabindex="0" role="button" aria-label="Maison '+(i+1)+'">';
+      g+=poly([haut,L(haut,W,k),L(bas,W,k),bas],'#ddd2bb',1.4);
+      g+=poly([faite,L(faite,W,k),L(haut,W,k),haut],'#c9604a',1.4);
+      g+=poly([[x,b],[x,b-h],faite,[x+w,b-h],[x+w,b]],'#f6efdf',1.6);
+      g+=poly([[x+w/2-9,b],[x+w/2-9,b-26],[x+w/2+9,b-26],[x+w/2+9,b]],'#1c1915',1);
+      g+='<circle class="rond" cx="'+(x+w/2)+'" cy="'+(b+16)+'" r="12" fill="rgba(246,239,223,.9)" stroke="#a63a24" stroke-width="2.2"/><text x="'+(x+w/2)+'" y="'+(b+21)+'" text-anchor="middle" font-size="13" font-weight="700" fill="#a63a24">'+(i+1)+'</text></g>';
+      s+=g;});
+    return s;}
+  function tirage(){
+    var v1=[180+Math.round(Math.random()*280),95+Math.round(Math.random()*60)],p1=proposer(v1,5,70);
+    var v2=[260+Math.round(Math.random()*120),88+Math.round(Math.random()*40)];
+    var v3=[300+Math.round(Math.random()*60),90],faux=Math.floor(Math.random()*3);
+    var mais=[{x:20,w:100,h:88,b:270,toit:38},{x:190,w:80,h:64,b:240,toit:30},{x:470,w:120,h:96,b:274,toit:42}];
+    return [{type:'couloir',vp:v1,cand:p1.pts,bon:p1.bon,consigne:'Dessin 1 : suis les lignes du carrelage et des murs. Touche le point où elles se rejoignent.'},
+      {type:'rue',vp:v2,libre:true,consigne:'Dessin 2 : cette fois, pas de carrelage ni de points à choisir. Prolonge en pensée les toits, les fenêtres et les bords de la rue, puis touche l\'endroit du dessin où ils se rejoignent.'},
+      {type:'maisons',vp:v3,faux:faux,maisons:mais,consigne:'Dessin 3 : un apprenti a dessiné ces trois maisons. Les côtés et les toits doivent fuir vers le même point que les lignes du sol. Une maison est mal dessinée : laquelle ?'}];}
+  var TOURS=tirage();
+  function svgDe(T,extra){var s='<svg class="planche" viewBox="0 0 640 300" role="img" aria-label="Dessin en perspective"><defs><pattern id="pf-hz" width="8" height="5" patternUnits="userSpaceOnUse"><line x1="0" y1="2.5" x2="8" y2="2.5" stroke="#1c1915" stroke-width=".5"/></pattern></defs>';
+    s+=T.type==='couloir'?couloir(T):T.type==='rue'?rue(T):maisons(T);
+    if(T.type==='couloir')s+=cibles(T.cand);
+    if(T.type==='rue'&&T.aide)s+=cibles(T.cand);
+    return s+(extra||'')+'</svg>';}
+  function montrer(T){var V=T.vp,s='<g stroke="#a63a24" stroke-width="1.6" stroke-dasharray="6 5" fill="none">';
+    [[0,24],[0,300],[640,54],[640,300],[150,300],[500,300]].forEach(function(p){s+='<line x1="'+p[0]+'" y1="'+p[1]+'" x2="'+V[0]+'" y2="'+V[1]+'"/>';});
+    return s+'</g><circle cx="'+V[0]+'" cy="'+V[1]+'" r="7" fill="#3f7a64" stroke="#1c1915" stroke-width="2"/>';}
+  function suivant(msg){J.dire(msg,'ok');t++;ratesTour=0;setTimeout(function(){if(t<TOURS.length)dessiner();else J.terminer(err<=3,err<=3?'Tommaso applaudit : « Tu dessines déjà comme un Florentin ! »':'Tommaso sourit : « Tu as compris, mais il faudra t\'exercer. »');},calme()?500:1500);}
+  function rate(msg){err++;ratesTour++;J.secouer();J.dire(msg,'ko');}
+  function dessiner(){
+    var T=TOURS[t];
+    J.corps.innerHTML='<p class="petit" style="text-align:center;margin:0 0 6px">'+T.consigne+'</p><div class="points-zone">'+svgDe(T)+'</div>';
+    if(T.type==='rue'&&!T.aide){J.corps.insertAdjacentHTML('beforeend','<p style="text-align:center;margin:4px 0 0"><button type="button" class="lien-passer" id="pf-aide">Je préfère choisir parmi quatre points</button></p>');J.corps.querySelector('#pf-aide').addEventListener('click',function(){var pr=proposer(T.vp,4,60);T.cand=pr.pts;T.bon=pr.bon;T.aide=true;dessiner();});}
+    var svg=J.corps.querySelector('svg');
+    if(T.type==='rue'&&!T.aide){svg.style.cursor='crosshair';svg.addEventListener('click',function(e){
+      var p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;var q=p.matrixTransform(svg.getScreenCTM().inverse()),d=Math.hypot(q.x-T.vp[0],q.y-T.vp[1]);
+      if(d<=30){svg.outerHTML=svgDe(T,montrer(T));suivant('Oui : toutes ces lignes fuient vers ce point, à la hauteur de tes yeux.');}
+      else{rate(d<80?'Tout près ! Prolonge encore les lignes des toits.':'Non : prolonge le bord des toits et le bas des maisons, ils se croisent quelque part au fond de la rue.');
+        var mk=document.createElementNS(NS,'circle');mk.setAttribute('cx',q.x);mk.setAttribute('cy',q.y);mk.setAttribute('r',6);mk.setAttribute('fill','#a63a24');mk.setAttribute('opacity','.6');svg.appendChild(mk);
+        if(ratesTour>=3){var pr=proposer(T.vp,4,60);T.cand=pr.pts;T.bon=pr.bon;T.aide=true;J.dire('Je t\'aide : choisis maintenant parmi ces quatre points.','ko');setTimeout(dessiner,calme()?300:1100);}}});
+      return;}
+    J.corps.querySelectorAll('.cible').forEach(function(g){function go(){var i=+g.getAttribute('data-c');
+      if(T.type==='maisons'){if(i===T.faux){g.classList.add('trouve');svg.insertAdjacentHTML('beforeend','<g stroke="#a63a24" stroke-width="1.6" stroke-dasharray="6 5"><line x1="0" y1="300" x2="'+T.vp[0]+'" y2="'+T.vp[1]+'"/><line x1="640" y1="300" x2="'+T.vp[0]+'" y2="'+T.vp[1]+'"/></g><circle cx="'+T.vp[0]+'" cy="'+T.vp[1]+'" r="6" fill="#3f7a64"/>');suivant('Oui : ses lignes partent dans une autre direction que celles du sol. Les deux autres fuient bien vers le même point.');}
+        else{g.classList.add('rate');rate('Non : les côtés de cette maison fuient bien vers le même point que les lignes du sol. Cherche celle qui « part de travers ».');}return;}
+      if(i===T.bon){g.classList.add('trouve');suivant('Oui : toutes les lignes fuient vers ce point.');}
+      else{g.classList.add('rate');rate('Non : suis une ligne du carrelage avec ton doigt jusqu\'au fond, puis une autre. Où se croisent-elles ?');}}
+      g.addEventListener('click',go);g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});});
+  }
   dessiner();
 };
 
