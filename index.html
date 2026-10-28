@@ -319,6 +319,22 @@ button:focus-visible,.lieu-plan:focus-visible,a:focus-visible{outline:2px solid 
 .a-presse{animation:presse 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 0}
 @keyframes presse{40%,60%{transform:translateY(8px)}}
 
+.a-nuage{animation:nuage 70s linear infinite}
+@keyframes nuage{from{transform:translateX(0)}to{transform:translateX(960px)}}
+.a-traverse{animation:traverse 16s linear infinite}
+@keyframes traverse{from{transform:translateX(0)}to{transform:translateX(960px)}}
+.a-traverse-g{animation:traverseg 16s linear infinite}
+@keyframes traverseg{from{transform:translateX(0)}to{transform:translateX(-960px)}}
+.a-galop{animation:galop .45s ease-in-out infinite}
+@keyframes galop{50%{transform:translateY(-4px) rotate(-1.5deg)}}
+.a-pas{animation:pasm .55s ease-in-out infinite}
+@keyframes pasm{50%{transform:translateY(-3px)}}
+.a-trot{animation:pasm .3s ease-in-out infinite}
+.a-entre-g{animation:entreg 2.6s cubic-bezier(.2,.7,.3,1) both}
+@keyframes entreg{from{transform:translateX(-520px)}to{transform:none}}
+.a-entre-d{animation:entred 2.6s cubic-bezier(.2,.7,.3,1) both}
+@keyframes entred{from{transform:translateX(520px)}to{transform:none}}
+.a-pas-court{animation:pasm .5s ease-in-out 5}
 /* Mode lecture */
 body.lecture{--f-texte:'Atkinson Hyperlegible',Verdana,Tahoma,Arial,sans-serif;--f-titre:'Atkinson Hyperlegible',Verdana,Tahoma,Arial,sans-serif;--taille:clamp(16px,2.7vh,21px);line-height:1.7;letter-spacing:.03em;word-spacing:.12em}
 body.lecture .papier{background-image:none;background-color:#f7f1e3}
@@ -892,6 +908,54 @@ verriere:function(){var cols=[LAV.nuit,LAV.rouge,LAV.vert,LAV.or,LAV.bleu,LAV.ro
 carte:function(){return '<div class="boite-grav">'+carteVoyage(true)+'</div>';}
 };
 var LEG={couverture:'Troyes, au printemps 1519',atelier:'L\'atelier de maître Nicolas',troyes:'La cathédrale de Troyes et sa façade inachevée',echoppe:'L\'échoppe de papier',marche:'Le marché et le colporteur',parvis:'Le pardon devant l\'église',route:'Le passage des Alpes',rome:'Le chantier de Saint-Pierre',sixtine:'La chapelle Sixtine',pantheon:'Les funérailles de Raphaël',cloitre:'Le cloître des augustins',nuremberg:'Nuremberg, chez Dürer',bruxelles:'L\'hôtel de ville de Bruxelles',nassau:'L\'hôtel de Nassau',anvers:'Le port d\'Anvers',erasme:'Érasme à sa table',crieur:'Le crieur d\'Anvers',bale:'Bâle et le Rhin',imprimerie:'L\'atelier de dame Ursula',magellan:'La feuille du Victoria',sermon:'Le sermon contre les images',incendie:'L\'incendie de Troyes',reconstruction:'Troyes se rebâtit',verriere:'La verrière de Jehan',carte:'La route de Jehan'};
+
+/* ============ VIE DANS LES GRAVURES : nuages, passants, cavaliers, animaux, personnages qui entrent ============ */
+function chevalG(s,robe,coiffe){s=s||1;var c=LAV.brun;
+  var corps='M-34 -32q0-12 14-14h36q16 2 16 14v8q0 6-6 6h-54q-6 0-6-6z';
+  var tete='M26 -42l12-20q6-6 12 0l4 10l-8 4l-6-2l-8 14z';
+  var str=P('M-30 -20l-6 20M-20 -18l-2 18M18 -18l4 18M28 -20l6 20','none',2.4)+P(corps,c,1.4)+'<path d="'+corps+'" fill="url(#g-dg)" opacity=".4"/>'+P(tete,c,1.4)+P('M-34 -34q-14 4-12 22','none',2.2)+P('M34 -54l6 -6','none',1.2);
+  str+=fig(4,-34,46,robe||LAV.rouge,coiffe||'chapeau');
+  return '<g transform="scale('+s+')">'+str+'</g>';}
+function chienG(s){s=s||1;return '<g transform="scale('+s+')">'+P('M-12 -12q0-6 6-6h16q4 0 6-4l4-4l3 4l4 2l-3 4l-5 2v8q0 4-4 4h-23q-4 0-4-4z',LAV.ocre,1.2)+P('M-10 -4l-2 6M-4 -4v6M8 -4v6M13 -4l2 6','none',1.6)+P('M-12 -12q-8-2-10-8','none',1.4)+'</g>';}
+var NBANIM=0;
+function nuagesA(liste){return liste.map(function(n){return '<g transform="translate(-160 0)"><g class="a-nuage" style="animation-duration:'+n[2]+'s;animation-delay:-'+(n[2]*(.15+(n[3]%60)/100)).toFixed(1)+'s">'+nuage(0,n[0],n[1]*1.4)+'</g></g>';}).join('');}
+function traverse(contenu,b,dur,del,versGauche){
+  return '<g transform="translate('+(versGauche?800:-160)+' '+b+')"><g class="'+(versGauche?'a-traverse-g':'a-traverse')+'" style="animation-duration:'+dur+'s;animation-delay:-'+del+'s">'+contenu+'</g></g>';}
+function cavalierA(b,s,dur,del,versGauche,robe,coiffe){return traverse('<g'+(versGauche?' transform="scale(-1 1)"':'')+'><g class="a-galop">'+chevalG(s,robe,coiffe)+'</g></g>',b,dur,del,versGauche);}
+function passantA(b,h,robe,coiffe,dur,del,versGauche,extra){return traverse('<g class="a-pas">'+fig(0,0,h,robe,coiffe)+(extra||'')+'</g>',b,dur,del,versGauche);}
+function chienA(b,s,dur,del,versGauche){return traverse('<g'+(versGauche?' transform="scale(-1 1)"':'')+'><g class="a-trot">'+chienG(s)+'</g></g>',b,dur,del,versGauche);}
+function bateauA(y,s,dur,del,versGauche){return traverse('<g'+(versGauche?' transform="scale(-1 1)"':'')+'>'+navire(0,0,s)+'</g>',y,dur,del,versGauche);}
+function entrantA(x,b,h,robe,coiffe,depuisDroite,retard){return '<g transform="translate('+x+' 0)"><g class="'+(depuisDroite?'a-entre-d':'a-entre-g')+'" style="animation-delay:'+(retard||.3)+'s"><g class="a-pas-court" style="animation-delay:'+(retard||.3)+'s">'+fig(0,b,h,robe,coiffe)+'</g></g></g>';}
+var ANIM={
+ couverture:{ciel:[[60,1.1,70,10],[40,.8,90,55]],avant:function(){return cavalierA(256,.62,16,4,true,LAV.nuit,'casque')+passantA(258,42,LAV.ocre,'coiffe',28,12,false);}},
+ atelier:{avant:function(){return entrantA(430,326,92,LAV.ocre,'beret',true,.4);}},
+ troyes:{ciel:[[50,1,60,5],[80,.7,80,40]],avant:function(){return passantA(270,52,LAV.nuit,'chaperon',24,3)+passantA(274,48,LAV.rose,'coiffe',30,17,true)+chienA(290,.9,11,6);}},
+ echoppe:{avant:function(){return entrantA(560,326,96,LAV.ocre,'coiffe',true,.5);}},
+ marche:{ciel:[[50,1,65,20]],avant:function(){return passantA(262,50,LAV.vert,'beret',22,6,true)+chienA(296,1,9,2)+entrantA(470,326,92,LAV.rouge,'coiffe',true,.6);}},
+ parvis:{ciel:[[44,.9,70,30]],avant:function(){return passantA(262,46,LAV.brun,'capuche',26,9)+entrantA(560,326,90,LAV.gris,'chapeau',true,.6);}},
+ route:{ciel:[[70,1,80,35],[40,.7,95,70]],avant:function(){return cavalierA(262,.5,18,6,true,LAV.gris,'casque');}},
+ rome:{ciel:[[50,1,70,15],[30,.7,90,60]],avant:function(){return cavalierA(268,.55,15,3,false,LAV.rouge,'beret')+passantA(272,46,'#1c1915','capuche',30,20,true)+chienA(300,.9,10,4,true);}},
+ sixtine:{avant:function(){return entrantA(220,330,84,LAV.vert,'beret',false,.4);}},
+ pantheon:{ciel:[[90,.9,75,25]],avant:function(){return entrantA(560,326,80,'#1c1915','capuche',true,.5);}},
+ cloitre:{avant:function(){return passantA(256,48,'#1c1915','capuche',30,8,true)+entrantA(520,326,96,'#1c1915','capuche',true,.6);}},
+ nuremberg:{ciel:[[40,1,70,12]],avant:function(){return cavalierA(268,.55,15,7,true,LAV.vert,'chapeau')+chienA(296,.9,10,1);}},
+ bruxelles:{ciel:[[50,1,65,8],[30,.6,90,50]],avant:function(){return passantA(262,48,LAV.rouge,'chaperon',24,4)+passantA(266,44,LAV.nuit,'coiffe',28,16,true)+entrantA(560,326,96,LAV.ocre,'chapeau',true,.5);}},
+ nassau:{avant:function(){return entrantA(90,326,96,LAV.nuit,'chaperon',false,.4);}},
+ anvers:{ciel:[[110,1,75,30]],avant:function(){return bateauA(284,.35,45,10,true)+passantA(248,40,LAV.brun,'',22,5,false,P('M-6 -40h16v-8h-16z',LAV.pierre,1));}},
+ erasme:{avant:function(){return chienA(316,1,14,3);}},
+ crieur:{ciel:[[44,.9,70,40]],avant:function(){return cavalierA(262,.55,14,2,false,LAV.nuit,'casque')+entrantA(80,326,92,LAV.brun,'chapeau',false,.5);}},
+ bale:{ciel:[[50,1,70,22],[90,.7,90,5]],avant:function(){return bateauA(268,.3,50,20,false)+cavalierA(234,.4,16,9,true,LAV.rouge,'chapeau');}},
+ imprimerie:{avant:function(){return entrantA(590,330,92,LAV.ocre,'beret',true,.5);}},
+ magellan:{ciel:[[40,.9,70,10]],avant:function(){return passantA(262,46,LAV.vert,'chapeau',22,3);}},
+ sermon:{avant:function(){return entrantA(580,326,92,LAV.gris,'chaperon',true,.6);}},
+ incendie:{avant:function(){return passantA(270,52,LAV.rose,'coiffe',7,1,true)+passantA(274,50,LAV.nuit,'beret',6,4)+chienA(296,1,5,2,true);}},
+ reconstruction:{ciel:[[50,1,70,30]],avant:function(){return passantA(266,50,LAV.brun,'',20,4,false,P('M-30 -46h60','none',3))+chienA(298,.9,11,7,true);}}
+};
+Object.keys(ANIM).forEach(function(k){var orig=MINI[k],A=ANIM[k];if(!orig)return;
+  MINI[k]=function(){var s=orig.apply(this,arguments);
+    if(A.ciel)s=s.replace('<g class="pl pl-decor">','<g class="pl pl-decor">'+nuagesA(A.ciel));
+    if(A.avant)s=s.replace('<g class="pl pl-avant">','<g class="pl pl-avant">'+A.avant());
+    return s;};});
 var EUROPE={"W":640,"H":585,"land":"M463 -3 L454 2 L454 5 L458 8 L459 12 L450 16 L449 30 L444 32 L441 26 L439 16 L430 15 L427 10 L427 5 L425 0 L422 -5 L431 -6 L435 -13 L438 -14 L440 -12 L440 -5 L443 -4 L446 -11 L445 -14 L456 -20 L464 -17 L461 -12 L463 -3ZM413 0 L418 11 L417 15 L413 21 L397 17 L393 9 L393 3 L404 0 L410 2 L413 0ZM221 604 L228 605 L229 608 L224 620 L219 623 L212 620 L210 614 L205 616 L201 613 L212 602 L222 598 L223 601 L221 604ZM389 565 L392 577 L388 586 L389 596 L387 623 L356 623 L357 607 L359 607 L360 603 L356 600 L358 585 L350 572 L351 562 L355 564 L360 564 L367 560 L377 548 L387 558 L385 561 L389 565ZM383 495 L385 499 L385 515 L381 523 L381 532 L376 544 L366 536 L368 531 L364 529 L365 523 L362 523 L364 516 L361 514 L360 512 L363 509 L360 506 L366 497 L375 492 L379 493 L380 481 L383 482 L383 495ZM76 -38 L56 -29 L67 -30 L73 -27 L70 -23 L65 -23 L55 -16 L44 -19 L48 -16 L63 -13 L74 -16 L86 -12 L98 1 L109 34 L124 42 L139 57 L136 60 L144 76 L134 71 L124 72 L133 73 L148 87 L150 93 L142 103 L148 107 L155 101 L168 101 L176 103 L183 109 L186 120 L182 133 L177 138 L172 139 L173 144 L171 145 L165 145 L160 148 L164 150 L164 154 L152 158 L154 157 L158 161 L164 162 L177 162 L177 169 L168 174 L165 179 L161 178 L146 185 L136 183 L121 185 L105 180 L107 183 L100 186 L89 186 L91 190 L89 191 L79 191 L64 187 L54 190 L47 205 L44 205 L33 199 L20 203 L13 208 L10 213 L2 210 L-3 212 L-4 209 L4 205 L16 194 L23 184 L25 177 L31 175 L34 169 L61 168 L79 148 L56 161 L50 160 L41 153 L32 154 L36 151 L29 148 L23 148 L15 152 L8 148 L8 143 L6 142 L8 140 L33 127 L39 117 L36 114 L37 111 L35 106 L36 103 L21 107 L32 94 L44 88 L56 86 L62 89 L60 84 L62 83 L66 88 L70 88 L66 86 L62 80 L66 71 L63 70 L63 67 L67 63 L67 54 L60 56 L49 43 L49 40 L52 32 L57 27 L63 25 L50 25 L39 31 L32 29 L25 32 L17 29 L15 35 L9 28 L8 23 L11 23 L21 4 L16 -4 L16 -10 L18 -13 L23 -13 L17 -17 L18 -21 L15 -16 L7 -11 L7 -18 L13 -24 L11 -23 L2 -15 L3 -7 L-1 8 L-6 10 L-7 8 L-5 -1 L0 -8 L-3 -8 L-1 -25 L5 -38 L76 -38ZM0 -38 L-7 -36 L-11 -38 L0 -38ZM-25 14 L-16 15 L-6 30 L-5 32 L-10 37 L-2 36 L1 42 L0 44 L-4 40 L-4 47 L-1 47 L-3 51 L-8 52 L-13 59 L-18 58 L-17 61 L-22 62 L-16 77 L-17 85 L-14 102 L-17 109 L-18 117 L-25 124 L-21 128 L-26 130 L-25 14ZM277 85 L274 84 L284 83 L277 85ZM567 482 L578 483 L581 485 L572 486 L567 482ZM581 477 L568 477 L560 474 L581 477ZM566 472 L561 470 L562 467 L573 470 L566 472ZM76 236 L73 235 L73 234 L76 233 L76 236ZM89 245 L84 246 L84 242 L89 244 L89 245ZM23 59 L18 58 L25 47 L29 46 L30 51 L23 59ZM10 6 L4 5 L3 -1 L5 -4 L8 -3 L10 1 L10 6ZM-7 -28 L-21 -28 L-18 -29 L-16 -34 L-21 -36 L-21 -38 L-13 -38 L-7 -34 L-7 -28ZM-16 -13 L-14 -4 L-19 0 L-21 0 L-21 -7 L-25 -4 L-23 -10 L-16 -13ZM-13 -8 L-15 -11 L-11 -14 L-12 -15 L-11 -17 L-6 -20 L-13 -8ZM34 88 L37 88 L29 94 L24 89 L24 85 L30 83 L34 88ZM563 -24 L561 -27 L561 -37 L568 -38 L563 -24ZM526 23 L517 19 L517 14 L519 12 L528 17 L526 23ZM492 49 L486 48 L483 52 L478 47 L478 40 L480 37 L484 34 L490 40 L488 43 L492 49ZM461 25 L453 27 L451 26 L455 20 L461 23 L461 25ZM463 2 L461 -1 L464 -3 L465 0 L463 2ZM429 25 L441 30 L442 35 L434 37 L423 32 L424 25 L429 25ZM410 28 L406 28 L402 24 L410 28ZM398 27 L392 27 L391 21 L397 23 L398 27ZM414 33 L413 29 L421 17 L416 31 L414 33ZM412 -6 L410 -7 L411 -15 L414 -11 L412 -6ZM430 45 L423 43 L424 41 L428 42 L430 45ZM353 32 L353 26 L356 21 L357 21 L355 27 L362 27 L354 29 L353 32ZM110 374 L106 368 L105 365 L111 371 L110 374ZM114 188 L107 192 L101 189 L107 185 L114 188ZM263 99 L261 98 L266 92 L266 97 L263 99ZM407 487 L408 493 L400 490 L407 487ZM250 603 L240 598 L239 594 L249 595 L251 600 L250 603ZM517 407 L510 402 L514 397 L520 406 L517 407ZM521 416 L517 414 L516 412 L519 411 L521 416ZM529 432 L523 425 L518 417 L531 430 L529 432ZM530 447 L528 447 L521 437 L524 439 L530 447ZM536 447 L534 447 L532 443 L534 445 L536 447ZM511 420 L507 409 L508 405 L507 400 L508 399 L511 406 L511 420ZM595 493 L585 490 L592 491 L595 493ZM655 620 L650 617 L644 605 L649 603 L651 605 L649 609 L652 617 L655 620ZM242 148 L245 151 L242 152 L235 148 L242 148ZM360 35 L357 35 L356 34 L360 33 L360 35ZM556 -38 L550 -24 L546 -20 L541 -22 L519 -21 L517 -20 L519 -17 L514 -17 L509 -14 L505 -9 L504 -5 L508 3 L504 8 L494 7 L482 10 L471 7 L473 -6 L460 -26 L469 -25 L465 -32 L470 -33 L472 -35 L471 -38 L556 -38ZM660 622 L658 614 L653 608 L649 595 L640 588 L635 581 L639 581 L636 571 L639 561 L638 542 L642 534 L642 528 L632 522 L624 510 L618 506 L618 503 L615 503 L597 490 L577 481 L582 481 L595 487 L574 467 L560 461 L550 462 L549 457 L538 447 L530 437 L528 434 L537 433 L524 420 L522 417 L521 402 L513 394 L507 392 L498 412 L496 412 L490 401 L487 387 L494 381 L490 376 L486 378 L479 376 L474 381 L459 387 L462 384 L461 384 L455 388 L454 396 L461 407 L458 413 L455 412 L454 416 L458 435 L466 444 L488 460 L499 494 L513 511 L529 523 L555 524 L554 529 L548 534 L548 539 L579 556 L588 564 L600 571 L613 588 L614 592 L610 603 L604 599 L598 586 L588 584 L583 581 L581 577 L577 577 L568 591 L564 606 L566 610 L576 616 L579 620 L579 623 L551 623 L543 597 L540 594 L532 594 L524 587 L524 582 L521 572 L519 571 L508 574 L511 569 L507 565 L500 565 L492 549 L480 547 L476 549 L470 543 L464 540 L450 522 L443 517 L439 509 L430 504 L425 504 L427 503 L427 500 L415 484 L410 483 L410 474 L405 462 L402 446 L379 431 L365 427 L360 430 L346 448 L327 455 L313 467 L309 474 L297 479 L290 478 L279 473 L277 469 L271 468 L270 465 L261 467 L249 463 L245 459 L241 460 L224 474 L219 485 L220 497 L225 509 L222 510 L221 514 L224 517 L224 522 L218 529 L200 540 L194 547 L167 556 L159 565 L164 569 L163 570 L156 573 L139 601 L132 615 L133 623 L-26 623 L-26 460 L-9 457 L25 466 L49 462 L63 468 L67 464 L85 469 L99 465 L103 460 L109 422 L113 417 L111 414 L109 418 L113 385 L120 391 L123 402 L127 405 L124 402 L121 387 L110 378 L110 376 L114 377 L111 355 L95 347 L88 336 L87 332 L89 327 L85 323 L89 318 L96 321 L90 317 L77 317 L76 314 L79 311 L70 309 L71 306 L69 305 L65 306 L60 302 L41 297 L30 297 L27 292 L21 289 L30 284 L24 279 L32 279 L28 277 L20 277 L19 273 L20 270 L25 267 L46 263 L58 258 L64 260 L72 270 L78 266 L88 266 L90 268 L92 264 L94 266 L106 266 L101 260 L100 245 L94 234 L93 226 L109 226 L109 233 L112 238 L137 241 L151 235 L144 233 L146 225 L177 211 L182 204 L181 203 L181 186 L186 178 L203 173 L228 161 L249 161 L233 159 L229 155 L237 153 L247 158 L250 158 L243 153 L248 153 L242 145 L244 140 L256 126 L263 102 L266 103 L270 101 L278 96 L282 89 L296 84 L315 83 L319 87 L325 89 L321 85 L323 78 L325 74 L336 73 L346 73 L350 79 L348 82 L351 83 L354 76 L358 80 L358 84 L359 70 L361 66 L376 67 L386 76 L391 78 L387 76 L379 67 L371 64 L369 61 L369 51 L362 50 L362 46 L370 43 L370 41 L363 31 L360 18 L363 17 L361 7 L349 0 L351 -15 L349 -21 L350 -38 L363 -34 L364 -38 L405 -38 L409 -35 L418 -35 L421 -32 L419 -27 L413 -23 L406 -25 L401 -10 L394 -9 L397 -6 L386 4 L388 13 L383 21 L389 23 L390 30 L397 35 L398 39 L393 43 L400 43 L402 46 L406 44 L416 49 L423 47 L424 50 L423 54 L418 58 L420 61 L433 63 L443 56 L451 55 L463 43 L474 45 L477 50 L485 56 L492 55 L496 67 L498 69 L514 75 L513 68 L497 66 L495 56 L509 64 L555 50 L565 40 L583 33 L604 29 L610 29 L621 35 L622 37 L613 33 L619 45 L623 47 L638 46 L649 37 L652 26 L666 23 L666 623 L660 622Z","riv":"M298 359 L300 354 L305 351 L317 352M581 288 L596 299 L627 298 L630 299 L630 302 L629 310 L626 315 L624 323 L627 339 L624 345 L625 357 L620 367 L626 380 L625 382 L629 386 L627 390 L634 395 L645 396 L649 395 L659 400 L661 402 L662 409 L666 411M540 188 L544 196 L547 200 L546 210 L542 212 L531 213 L527 208 L515 206 L509 197 L505 197 L500 192 L504 185 L505 182 L503 179 L487 170 L479 161 L478 158M478 158 L472 152 L470 149 L469 146 L467 144 L452 142 L440 135 L440 130 L447 121 L448 108 L446 103 L441 99 L425 94 L414 85 L399 83M399 83 L392 79 L391 78 L398 80 L399 83M323 417 L331 417 L333 413 L336 411 L339 400 L345 397 L355 398 L362 403 L377 400 L392 402 L396 400 L398 403 L411 408 L414 404 L419 403 L427 403 L437 409 L450 405 L461 407M351 254 L358 237 L355 229 L357 223 L355 218 L352 213 L345 214 L341 213 L336 206 L336 200 L327 193 L321 183 L318 174 L314 169 L312 164 L312 156 L310 153 L310 152 L296 143 L285 142 L275 145 L268 144M259 455 L254 457 L253 462 L254 465M298 359 L292 362 L290 367 L288 377 L286 379 L278 373 L274 375 L268 374 L264 378 L265 384 L263 389 L263 394 L265 409 L263 414 L260 430 L261 438 L265 443 L261 447 L259 454 L263 466M352 349 L344 354 L337 355 L322 361 L317 352M261 307 L258 301 L258 295 L254 287 L249 283 L240 271 L237 270 L219 276 L213 275 L205 268 L202 264 L202 260 L198 256 L191 253 L185 253 L183 251 L179 249 L175 244 L173 244 L171 241 L169 240 L161 234 L152 234","lakes":"M291 119 L281 128 L270 124 L270 114 L275 112 L275 110 L271 102 L278 97 L280 104 L286 105 L285 112 L290 114 L291 119ZM290 118 L289 116 L286 115 L273 123 L282 126 L290 118ZM646 43 L652 34 L655 35 L663 35 L647 45 L646 43ZM647 45 L636 51 L634 49 L646 43 L647 45ZM317 352 L303 353 L298 359 L298 355 L303 350 L309 347 L315 349 L317 352ZM-26 34 L-21 34 L-20 36 L-22 42 L-26 42 L-26 34ZM588 339 L583 339 L583 338 L593 334 L604 327 L606 328 L605 330 L588 339ZM390 309 L383 309 L378 306 L374 299 L390 309ZM637 509 L639 517 L633 514 L630 509 L637 509ZM368 304 L371 300 L374 303 L368 304Z"};
 
 /* ============ PLANS DE VILLES (à la manière des plans gravés) ============ */
@@ -1152,7 +1216,13 @@ function monterJeu(el,titre,consigne,fin){
 var JEUX={};
 
 /* Trier des jetons dans des cases */
+function ordreMelange(items,zones){
+  var z=zones.map(function(x){return x.id;}),m,essai=0;
+  do{m=melange(items);essai++;}while(essai<30&&(m.slice(0,Math.min(3,m.length)).every(function(it,k){return it.z===z[k];})||m.every(function(it,k){return k===0||z.indexOf(it.z)>=z.indexOf(m[k-1].z);})));
+  return m;
+}
 function trier(el,fin,o){
+  o.items=ordreMelange(o.items,o.zones);
   var J=monterJeu(el,o.titre,o.consigne,fin),sel=null,place={},err=0;
   function dessiner(){
     var jet='<div class="jetons">';o.items.forEach(function(it){if(!place[it.id])jet+='<button type="button" class="jeton" data-i="'+it.id+'" aria-pressed="'+(sel===it.id)+'">'+it.l+'</button>';});jet+='</div>';
@@ -1176,7 +1246,7 @@ function trier(el,fin,o){
 
 /* Associer deux colonnes */
 function associer(el,fin,o){
-  var J=monterJeu(el,o.titre,o.consigne,fin),gauche=melange(o.paires.map(function(p,i){return i;})),droite=melange(o.paires.map(function(p,i){return i;})),sel=null,ok={},err=0;
+  var J=monterJeu(el,o.titre,o.consigne,fin),gauche=melange(o.paires.map(function(p,i){return i;})),droite=(function(){var d,essai=0;do{d=melange(o.paires.map(function(p,i){return i;}));essai++;}while(essai<50&&d.some(function(x,k){return x===gauche[k];}));return d;})(),sel=null,ok={},err=0;
   function dessiner(){
     var h='<div class="duo"><div class="jetons" style="flex-direction:column;align-items:stretch">';
     gauche.forEach(function(i){h+='<button type="button" class="jeton'+(ok[i]?' place':'')+'" data-g="'+i+'" aria-pressed="'+(sel===i)+'"'+(ok[i]?' disabled':'')+' style="text-align:left">'+o.paires[i][0]+'</button>';});
@@ -1500,7 +1570,7 @@ JEUX.maraude=function(el,fin){
 };
 
 /* ============ LE BILAN : le vitrail d'un monde qui change ============ */
-var PANNEAUX=[{id:'monde',n:'Le monde s\'agrandit',s:'découvertes, commerce lointain'},{id:'eglise',n:'L\'Église se divise',s:'indulgences, Luther, réformes'},{id:'livre',n:'Le livre se multiplie',s:'gravure, imprimerie, humanisme'},{id:'art',n:'L\'art regarde autrement',s:'Renaissance italienne et du Nord'}];
+var PANNEAUX=[{id:'monde',n:'L\'ouverture au monde',s:'découvertes, commerce lointain'},{id:'livre',n:'La révolution de l\'imprimerie',s:'gravure, livres, humanisme'},{id:'eglise',n:'Une religion questionnée',s:'indulgences, Luther, réformes'},{id:'art',n:'L\'art regarde autrement',s:'Renaissance italienne et du Nord'}];
 var NATURES=[{id:'neuf',n:'Nouveauté'},{id:'craque',n:'Craquement'},{id:'deux',n:'Les deux'}];
 var CLASSE={
  verrieres:{p:['art'],n:'neuf'},colporteur:{p:['livre','art'],n:'neuf'},papier:{p:['livre'],n:'neuf'},pardon:{p:['eglise'],n:'craque'},
@@ -1582,7 +1652,7 @@ function vitrailBilan(place){
       s+='<path d="'+pc.d+'" fill="'+col+'" stroke="#1c1915" stroke-width="2.6" stroke-linejoin="round"/>';
 });
     s+='<path d="'+SCENES_VITRAIL[gris[P.id]]+'" fill="none" stroke="#1c1915" stroke-width="1.6" stroke-linecap="round" opacity=".85"/>';
-    s+='<text x="80" y="154" text-anchor="middle" font-size="11.5" fill="#1c1915" stroke="#efe6d2" stroke-width="3.5" paint-order="stroke" font-family="Georgia,serif" font-style="italic">'+P.n+' ('+items.length+')</text>';
+    s+='<text x="80" y="154" text-anchor="middle" font-size="10" fill="#1c1915" stroke="#efe6d2" stroke-width="3.5" paint-order="stroke" font-family="Georgia,serif" font-style="italic">'+P.n+' ('+items.length+')</text>';
     s+='</g>';});
   s+='</g><path d="'+fen+'" fill="none" stroke="#1c1915" stroke-width="7"/><path d="M'+(x0+w/2)+' '+(y0+r)+'V'+(y0+h)+'M'+x0+' '+(y0+r)+'H'+(x0+w)+'M'+x0+' '+(y0+r+160)+'H'+(x0+w)+'" stroke="#1c1915" stroke-width="7"/>';
   return s+'</svg>';
@@ -1908,10 +1978,10 @@ var SC={
   t.push(D('nicolas',"C'est un chef-d'œuvre, Jehan. Tu es maître."));return t;},
  choix:function(){return [ch('Présenter la verrière à maître Hennequart',S.rep>=3?'finA':'finB')];}},
 'bilan':{fol:'Bilan',acte:5,rub:'Épilogue · Le bilan du voyage',img:'carte',mus:'bilan',titre:'Un monde qui change',
- txt:["Ton voyage s'achève. Sur la carte, tu peux enfin suivre toute ta route. En cinq ans, tu as vu le monde changer.","À toi de composer le vitrail de ces changements. Il a quatre panneaux : le monde s'agrandit, l'Église se divise, le livre se multiplie, l'art regarde autrement. Pour chaque chose notée dans ton carnet, choisis le panneau où elle a sa place."],
+ txt:["Ton voyage s'achève. Sur la carte, tu peux enfin suivre toute ta route. En cinq ans, tu as vu le monde changer.","À toi de composer le vitrail de ces changements. Il a quatre panneaux : l'ouverture au monde, la révolution de l'imprimerie, une religion questionnée, l'art regarde autrement. Pour chaque chose notée dans ton carnet, choisis le panneau où elle a sa place."],
  jeu:{type:'bilan',bouton:'Composer le vitrail du bilan',fini:function(){if(!S.classe){S.classe={};S.carnet.forEach(function(e){if(CLASSE[e.k])S.classe[e.k]={p:CLASSE[e.k].p[0],n:CLASSE[e.k].n};});}}},
  apres:function(){var c={monde:0,eglise:0,livre:0,art:0},tot=0;Object.keys(S.classe||{}).forEach(function(k){c[S.classe[k].p]++;tot++;});
-  return ['Ton vitrail compte '+tot+' pièces de verre.','Panneau par panneau : le monde s\'agrandit ('+c.monde+'), l\'Église se divise ('+c.eglise+'), le livre se multiplie ('+c.livre+'), l\'art regarde autrement ('+c.art+').','Un dernier regard : qui paie le prix de ces changements ?'];},
+  return ['Ton vitrail compte '+tot+' pièces de verre.','Panneau par panneau : l\'ouverture au monde ('+c.monde+'), la révolution de l\'imprimerie ('+c.livre+'), une religion questionnée ('+c.eglise+'), l\'art regarde autrement ('+c.art+').','Un dernier regard : qui paie le prix de ces changements ?'];},
  choix:[ch('Qui en souffre ?','bilan2')]},
 'bilan2':{fol:'Bilan',acte:5,rub:'Épilogue · Le bilan du voyage',img:'verriere',mus:'bilan',titre:'Qui en souffre ?',
  txt:["Dans un monde qui change, certains s'enrichissent et d'autres paient le prix. Relie chaque craquement au groupe qui en souffre le plus."],
